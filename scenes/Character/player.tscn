@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b8p71nnfbfcy5" path="res://scenes/Character/charater.tscn" id="1_hs0k7"]
 [ext_resource type="Script" uid="uid://cj8fncndasw44" path="res://scripts/Character/Player.cs" id="2_4mqus"]
 [ext_resource type="Texture2D" uid="uid://cxg8d6qg72u72" path="res://accetss/art/characters/player.png" id="2_beklg"]
+[ext_resource type="FontFile" uid="uid://c4agqxkh4gvlx" path="res://accetss/fonts/my 3x5 tiny mono pixel font.ttf" id="4_0tuvh"]
 
 [sub_resource type="Animation" id="Animation_0tuvh"]
 length = 0.001
@@ -37,6 +38,37 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_8fgnd"]
+resource_name = "punch"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.099999994),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [21, 22, 23]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("stateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnActionComplete"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_i7wy1"]
 resource_name = "walk"
 length = 0.8
@@ -59,11 +91,13 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_0tuvh"),
 &"idle": SubResource("Animation_4mqus"),
+&"punch": SubResource("Animation_8fgnd"),
 &"walk": SubResource("Animation_i7wy1")
 }
 
-[node name="Player" unique_id=1402660317 instance=ExtResource("1_hs0k7")]
+[node name="Player" unique_id=1402660317 node_paths=PackedStringArray("labelState") instance=ExtResource("1_hs0k7")]
 script = ExtResource("2_4mqus")
+labelState = NodePath("Panel/Label")
 
 [node name="skin" parent="." index="0" unique_id=773792979]
 texture = ExtResource("2_beklg")
@@ -75,3 +109,20 @@ vframes = 10
 [node name="animation" parent="." index="3" unique_id=601317421]
 libraries/ = SubResource("AnimationLibrary_0tuvh")
 autoplay = &"idle"
+
+[node name="Panel" parent="." index="5" unique_id=1425652735]
+offset_left = -4.0
+offset_top = -29.0
+offset_right = 5.0
+offset_bottom = -26.0
+
+[node name="Label" type="Label" parent="Panel" index="0" unique_id=2007600307]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 13.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("4_0tuvh")
+theme_override_font_sizes/font_size = 8
+text = "SIZE
+"

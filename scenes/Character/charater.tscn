@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsdsy1usvaogo" path="res://scripts/Character/Character.cs" id="1_22x0q"]
 [ext_resource type="Texture2D" uid="uid://d0jo43xa8ljw5" path="res://accetss/art/characters/shadow.png" id="2_2xhq8"]
+[ext_resource type="Script" uid="uid://dnqaifme2bcc7" path="res://scripts/State/StateMachine.cs" id="3_2xhq8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6i8l6"]
 radius = 1.0
@@ -30,3 +31,8 @@ shape = SubResource("CapsuleShape2D_6i8l6")
 [node name="animation" type="AnimationPlayer" parent="." unique_id=601317421]
 
 [node name="stateMachine" type="Node" parent="." unique_id=830375435]
+script = ExtResource("3_2xhq8")
+
+[node name="Panel" type="Panel" parent="." unique_id=1425652735]
+offset_right = 9.0
+offset_bottom = 3.0

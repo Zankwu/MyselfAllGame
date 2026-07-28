@@ -1,9 +1,11 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class Character : CharacterBody2D
 {
-
+	[Export]
+	public Label labelState;
 
 	[Export]
 	public int health;
@@ -20,7 +22,7 @@ public partial class Character : CharacterBody2D
 	public Sprite2D skin;
 
 	[Export]
-	public Node stateMachine;
+	public StateMachine stateMachine;
 
 	public string currentState = "idle";
 	public bool heading = false;
@@ -34,36 +36,43 @@ public partial class Character : CharacterBody2D
 
 	public virtual void ChangeState(Script script, string name)
 	{
-
-
-
-		stateMachine = GetNode<Node>("stateMachine");
-		// if (stateMachine == null || !GodotObject.IsInstanceValid(stateMachine))
-		// {
-		// 	GD.PrintErr("❌ stateMachine 无效！");
-		// 	return;
-		// }
-
-		// if (script == null || !script.CanInstantiate())
-		// {
-		// 	GD.PrintErr("❌ 脚本无效！");
-		// 	return;
-		// }
-
+		stateMachine = GetNode<StateMachine>("stateMachine");
+		if (stateMachine.HasMethod("ChangeStateEnd"))
+		{
+			stateMachine.ChangeStateEnd();
+		}
 		stateMachine.SetScript(script);
-
-
+		stateMachine.ChangeStateBegin();
+		currentState = name;
+		labelState.Text = currentState;
 	}
 
 	public override void _Process(double delta)
 	{
 		// MoveHandler();
 		AnimationHandler();
+		HeadingHandler();
 		MoveAndSlide();
+	}
+
+	private void HeadingHandler()
+	{
+		float horizontal = Input.GetAxis("left", "right");
+		if (horizontal > 0)
+		{
+			heading = false;
+		}
+		else if (horizontal < 0)
+		{
+			heading = true;
+		}
+
+		skin.FlipH = heading;
 	}
 
 	public virtual void AnimationHandler()
 	{
+		animation.Play(currentState);
 
 	}
 

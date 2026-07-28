@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cdy36nbtqe5q3" path="res://scripts/World.cs" id="1_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://0tummoeogclm" path="res://scenes/stage/stage.tscn" id="1_nnsk1"]
 [ext_resource type="PackedScene" uid="uid://c5w6iew34jul0" path="res://scenes/Character/player.tscn" id="2_rwgxs"]
+[ext_resource type="PackedScene" uid="uid://dhg77li0xne8f" path="res://scenes/Actors/barrel.tscn" id="4_k0juu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ek4p"]
 size = Vector2(7, 64)
@@ -10,14 +11,9 @@ size = Vector2(7, 64)
 [node name="World" type="Node2D" unique_id=573228722 node_paths=PackedStringArray("camera", "player")]
 script = ExtResource("1_4wyf3")
 camera = NodePath("camera")
-player = NodePath("Player")
+player = NodePath("actors/Player")
 
 [node name="Stage" parent="." unique_id=185410150 instance=ExtResource("1_nnsk1")]
-
-[node name="Player" parent="." unique_id=1402660317 instance=ExtResource("2_rwgxs")]
-position = Vector2(29, 46)
-collision_layer = 4
-collision_mask = 24
 
 [node name="camera" type="Camera2D" parent="." unique_id=1697912121]
 position = Vector2(50, 32)
@@ -39,3 +35,16 @@ collision_layer = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/rightWall" unique_id=35427609]
 position = Vector2(-2.5, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
+
+[node name="actors" type="Node2D" parent="." unique_id=429231371]
+y_sort_enabled = true
+
+[node name="Player" parent="actors" unique_id=1402660317 instance=ExtResource("2_rwgxs")]
+position = Vector2(29, 46)
+collision_layer = 4
+collision_mask = 24
+
+[node name="Barrel" parent="actors" unique_id=519791056 instance=ExtResource("4_k0juu")]
+position = Vector2(86, 54)
+collision_layer = 16
+collision_mask = 0
