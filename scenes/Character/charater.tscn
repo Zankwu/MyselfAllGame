@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b8p71nnfbfcy5"]
+
+[ext_resource type="Script" uid="uid://bsdsy1usvaogo" path="res://scripts/Character/Character.cs" id="1_22x0q"]
+[ext_resource type="Texture2D" uid="uid://d0jo43xa8ljw5" path="res://accetss/art/characters/shadow.png" id="2_2xhq8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6i8l6"]
+radius = 1.0
+height = 10.0
+
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "skin", "stateMachine")]
+script = ExtResource("1_22x0q")
+health = 30
+damage = 5
+speed = 35
+animation = NodePath("animation")
+skin = NodePath("skin")
+stateMachine = NodePath("stateMachine")
+
+[node name="skin" type="Sprite2D" parent="." unique_id=773792979]
+
+[node name="shadow" type="Sprite2D" parent="." unique_id=348470656]
+texture = ExtResource("2_2xhq8")
+centered = false
+offset = Vector2(-7, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=223516032]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_6i8l6")
+
+[node name="animation" type="AnimationPlayer" parent="." unique_id=601317421]
+
+[node name="stateMachine" type="Node" parent="." unique_id=830375435]

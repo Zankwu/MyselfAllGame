@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bkgkdiiryxrgo"]
+
+[ext_resource type="Script" uid="uid://cmaldh8idddsg" path="res://scripts/State/PreState.cs" id="1_axivb"]
+
+[node name="Node" type="Node" unique_id=986999795]
+script = ExtResource("1_axivb")

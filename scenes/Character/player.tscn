@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://c5w6iew34jul0"]
+
+[ext_resource type="PackedScene" uid="uid://b8p71nnfbfcy5" path="res://scenes/Character/charater.tscn" id="1_hs0k7"]
+[ext_resource type="Script" uid="uid://cj8fncndasw44" path="res://scripts/Character/Player.cs" id="2_4mqus"]
+[ext_resource type="Texture2D" uid="uid://cxg8d6qg72u72" path="res://accetss/art/characters/player.png" id="2_beklg"]
+
+[sub_resource type="Animation" id="Animation_0tuvh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_4mqus"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_i7wy1"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0tuvh"]
+_data = {
+&"RESET": SubResource("Animation_0tuvh"),
+&"idle": SubResource("Animation_4mqus"),
+&"walk": SubResource("Animation_i7wy1")
+}
+
+[node name="Player" unique_id=1402660317 instance=ExtResource("1_hs0k7")]
+script = ExtResource("2_4mqus")
+
+[node name="skin" parent="." index="0" unique_id=773792979]
+texture = ExtResource("2_beklg")
+centered = false
+offset = Vector2(-24, -48)
+hframes = 10
+vframes = 10
+
+[node name="animation" parent="." index="3" unique_id=601317421]
+libraries/ = SubResource("AnimationLibrary_0tuvh")
+autoplay = &"idle"
