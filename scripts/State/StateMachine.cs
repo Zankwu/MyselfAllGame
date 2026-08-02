@@ -27,12 +27,12 @@ public partial class StateMachine : Node
 
 	public virtual bool CanPunch(Character player)
 	{
-		return player.currentState == "idle" || player.currentState == "walk";
+		return false;
 	}
 
 	public virtual void OnActionComplete()
 	{
-		player.ChangeState(PreState.instance.idle, "idle");
+		
 
 	}
 }

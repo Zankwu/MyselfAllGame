@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PreState="*uid://cmaldh8idddsg"
+PreState="uid://cmaldh8idddsg"
 
 [display]
 
@@ -71,8 +71,9 @@ jump={
 2d_physics/layer_3="Player"
 2d_physics/layer_4="Enemy"
 2d_physics/layer_5="World"
-2d_physics/layer_6="DamageReceiver"
-2d_physics/layer_7="DamageEmitter"
+2d_physics/layer_6="PlayerDamageReceiver"
+2d_physics/layer_7="EnemyDamageReceiver"
+2d_physics/layer_8="DestoryedDamageReceiver"
 
 [physics]
 

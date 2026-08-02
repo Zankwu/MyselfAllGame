@@ -1,0 +1,204 @@
+[gd_scene format=3 uid="uid://6nteqf2waunv"]
+
+[ext_resource type="PackedScene" uid="uid://b8p71nnfbfcy5" path="res://scenes/Character/charater.tscn" id="1_qmscb"]
+[ext_resource type="Texture2D" uid="uid://dcldheiy6r7j2" path="res://accetss/art/characters/enemy_punk.png" id="2_2svwa"]
+[ext_resource type="Script" uid="uid://j1fycflc3hgu" path="res://scripts/Character/BasicEnemy.cs" id="2_e01l2"]
+
+[sub_resource type="Animation" id="Animation_30mx0"]
+resource_name = "FALL"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [50]
+}
+
+[sub_resource type="Animation" id="Animation_uvo6p"]
+resource_name = "GROUNDED"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [52]
+}
+
+[sub_resource type="Animation" id="Animation_g1ddv"]
+resource_name = "HURT"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.099999994),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [40, 41, 42]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnActionComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_2svwa"]
+resource_name = "IDLE"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_g5fq4"]
+resource_name = "LAND"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [70]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.099999994),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnActionComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_e01l2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_28256"]
+resource_name = "WALK"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1ddv"]
+_data = {
+&"FALL": SubResource("Animation_30mx0"),
+&"GROUNDED": SubResource("Animation_uvo6p"),
+&"HURT": SubResource("Animation_g1ddv"),
+&"IDLE": SubResource("Animation_2svwa"),
+&"LAND": SubResource("Animation_g5fq4"),
+&"RESET": SubResource("Animation_e01l2"),
+&"WALK": SubResource("Animation_28256")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30mx0"]
+size = Vector2(7, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2svwa"]
+size = Vector2(10, 10)
+
+[node name="BasicEnemy" unique_id=1402660317 instance=ExtResource("1_qmscb")]
+script = ExtResource("2_e01l2")
+max_health = 20
+damage = 2
+speed = 25
+
+[node name="skin" parent="." index="0" unique_id=773792979]
+texture = ExtResource("2_2svwa")
+centered = false
+offset = Vector2(-24, -48)
+hframes = 10
+vframes = 10
+
+[node name="animation" parent="." index="3" unique_id=601317421]
+libraries/ = SubResource("AnimationLibrary_g1ddv")
+autoplay = &"IDLE"
+
+[node name="DamageEmitter" parent="." index="6" unique_id=1552358143]
+position = Vector2(0, -11)
+
+[node name="CollisionShape2D" parent="DamageEmitter" index="0" unique_id=460634414]
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_30mx0")
+
+[node name="DamageReceiver" parent="." index="7" unique_id=429159862]
+position = Vector2(0, -19)
+collision_layer = 64
+
+[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=1539579637]
+shape = SubResource("RectangleShape2D_2svwa")
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]

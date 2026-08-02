@@ -1,25 +1,23 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Reflection.Metadata;
 
 public partial class Player : Character
 {
-
+	[Export]
+	public EnemySlot[] enemySlots;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		stateMachine = GetNode<StateMachine>("stateMachine");
-
-		stateMachine.SetProcess(true);
-		ChangeState(PreState.instance.idle,"idle");
+		base._Ready();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-
 	}
 
 	public override void AnimationHandler()
@@ -28,24 +26,72 @@ public partial class Player : Character
 	}
 
 
-
-	public override void MoveHandler()
+	public override void HeadingHandler()
 	{
-		// Vector2 direciton = Input.GetVector("left", "right", "up", "down");
-		
-		// if (direciton == Vector2.Zero)
-		// {
-		// 	ChangeState(idle,"idle");
-			
-		// }
-		// else
-		// {
-		// 	ChangeState(walk,"walk");
-		// }
-		// Velocity = direciton * speed;
+		float horizontal = Input.GetAxis("left", "right");
+
+		if (horizontal > 0)
+		{
+			heading = false;
+
+		}
+		else if (horizontal < 0)
+		{
+			heading = true;
+		}
+		base.HeadingHandler();
+
+	}
 
 
+	public override void InputHandler()
+	{
+		Vector2 direciton = Input.GetVector("left", "right", "up", "down");
+		Velocity = direciton * speed;
 
-		// MoveAndSlide();
+		if (Input.IsActionJustPressed("attack") && CanPunch())
+		{
+			currentState = State.ATTACK;
+		}
+		if (Input.IsActionJustPressed("jump") && CanJump())
+		{
+			currentState = State.TAKEOFF;
+			height_speed = JUMPFORCE;
+		}
+		if (Input.IsActionJustPressed("attack") && CanJumpKick())
+		{
+			currentState = State.JUMPKICK;
+		}
+
+	}
+
+	public EnemySlot ReserveSlot(BasicEnemy enemy)
+	{
+		//获得空闲槽位
+		EnemySlot[] availableSlots = enemySlots.Where(n => n.IsEnemyFree()).ToArray();
+		if (availableSlots.Length == 0)
+		{
+			return null;
+		}
+		//空闲槽位排序出最近的槽位
+		availableSlots.Sort((a, b) =>
+		{
+			float dist_a = (a.GlobalPosition - enemy.GlobalPosition).Length();
+			float dist_b = (b.GlobalPosition - enemy.GlobalPosition).Length();
+			return dist_a.CompareTo(dist_b);
+		});
+		availableSlots[0].enemy = enemy;
+		return availableSlots[0];
+
+
+	}
+
+	public void FreeEnemySlot(BasicEnemy enemy)
+	{
+		EnemySlot[] targetSlots = enemySlots.Where(n => n.enemy == enemy).ToArray();
+		if (targetSlots.Length == 1)
+		{
+			targetSlots[0].FreeSlotEnemy();
+		}
 	}
 }

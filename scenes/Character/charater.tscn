@@ -3,17 +3,21 @@
 [ext_resource type="Script" uid="uid://bsdsy1usvaogo" path="res://scripts/Character/Character.cs" id="1_22x0q"]
 [ext_resource type="Texture2D" uid="uid://d0jo43xa8ljw5" path="res://accetss/art/characters/shadow.png" id="2_2xhq8"]
 [ext_resource type="Script" uid="uid://dnqaifme2bcc7" path="res://scripts/State/StateMachine.cs" id="3_2xhq8"]
+[ext_resource type="PackedScene" uid="uid://chb5xp8vyco47" path="res://scenes/Colliders/DamageEmitter.tscn" id="4_5jlum"]
+[ext_resource type="PackedScene" uid="uid://dbhqri1hinljq" path="res://scenes/Colliders/DamageReceiver.tscn" id="5_mhu0h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6i8l6"]
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "damageEmitter", "damageReceiver", "collisionShape2D", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
-health = 30
 damage = 5
 speed = 35
 animation = NodePath("animation")
+damageEmitter = NodePath("DamageEmitter")
+damageReceiver = NodePath("DamageReceiver")
+collisionShape2D = NodePath("CollisionShape2D")
 skin = NodePath("skin")
 stateMachine = NodePath("stateMachine")
 
@@ -36,3 +40,10 @@ script = ExtResource("3_2xhq8")
 [node name="Panel" type="Panel" parent="." unique_id=1425652735]
 offset_right = 9.0
 offset_bottom = 3.0
+
+[node name="DamageEmitter" parent="." unique_id=1552358143 instance=ExtResource("4_5jlum")]
+
+[node name="DamageReceiver" parent="." unique_id=429159862 instance=ExtResource("5_mhu0h")]
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]
