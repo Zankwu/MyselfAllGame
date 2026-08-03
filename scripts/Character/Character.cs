@@ -17,18 +17,16 @@ public partial class Character : CharacterBody2D
 	[Export]
 	public int speed;
 
-
-
 	[Export]
 	public AnimationPlayer animation;
+	[Export]
+	public CollisionShape2D collisionShape2D;
 
 	[Export]
 	public DamageEmitter damageEmitter;
 	[Export]
 	public DamageReceiver damageReceiver;
 
-	[Export]
-	public CollisionShape2D collisionShape2D;
 	[Export]
 	public Sprite2D skin;
 
@@ -41,13 +39,12 @@ public partial class Character : CharacterBody2D
 	public float GRAVITY = 600f;
 	public float JUMPFORCE = 150f;
 	public float height = 0f;
+	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
+	public int HitType;
 	public float height_speed = 0f;
 	public State currentState = State.IDLE;
 	public bool heading = false;
 
-
-	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
-	public int HitType;
 	public enum State
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
@@ -67,11 +64,10 @@ public partial class Character : CharacterBody2D
 		{State.FALL,"FALL"},
 		{State.GROUNDED,"GROUNDED"},
 	};
-
 	[Export]
-	public ulong Time_Grounded_duration = 1000;
+	public ulong Time_Grounded_Duration = 1000;
 
-	public ulong Time_Grounded_start = Time.GetTicksMsec();
+	public ulong Time_Grounded_Start = Time.GetTicksMsec();
 
 
 
@@ -81,7 +77,6 @@ public partial class Character : CharacterBody2D
 		damageEmitter.AreaEntered += OnDamageEmit;
 		damageReceiver.DamageReceived += OnDamageReceiver;
 		current_health = max_health;
-		collisionShape2D.Disabled = currentState == State.GROUNDED;
 	}
 
 
@@ -100,20 +95,13 @@ public partial class Character : CharacterBody2D
 
 		}
 		damageEmitter.Monitoring = currentState == State.ATTACK || currentState == State.JUMPKICK;
+		collisionShape2D.Disabled = currentState == State.GROUNDED;
 		skin.Position = Vector2.Up * height;
-
 		skin.FlipH = heading;
 
 
 	}
 
-	public virtual void GroundedHandler()
-	{
-		if (currentState == State.GROUNDED && Time.GetTicksMsec() - Time_Grounded_start > Time_Grounded_duration)
-		{
-			currentState = State.LAND;
-		}
-	}
 	public virtual void HeadingHandler()
 	{
 
@@ -140,19 +128,28 @@ public partial class Character : CharacterBody2D
 
 	}
 
+	public virtual void GroundedHandler()
+	{
+		if (currentState == State.GROUNDED && Time.GetTicksMsec() - Time_Grounded_Start > Time_Grounded_Duration)
+		{
+			currentState = State.LAND;
+		}
+	}
 	public virtual void AirTimeHandler(float delta)
 	{
 		if (currentState == State.JUMP || currentState == State.JUMPKICK || currentState == State.FALL)
 		{
 			height += height_speed * delta;
-			if (height < 0)
+
+			if (height <= 0)
 			{
 				height = 0;
 				if (currentState == State.FALL)
 				{
 					currentState = State.GROUNDED;
 					Velocity = Vector2.Zero;
-					Time_Grounded_start = Time.GetTicksMsec();
+					Time_Grounded_Start = Time.GetTicksMsec();
+
 				}
 				else
 				{
@@ -162,6 +159,8 @@ public partial class Character : CharacterBody2D
 			}
 			height_speed -= GRAVITY * delta;
 		}
+
+
 	}
 
 	public virtual void MoveHandler()
@@ -219,7 +218,6 @@ public partial class Character : CharacterBody2D
 	public void OnDamageEmit(Area2D area)
 	{
 		HitType = 1;
-
 		if (currentState == State.JUMPKICK)
 		{
 			HitType = 2;
@@ -235,7 +233,6 @@ public partial class Character : CharacterBody2D
 	{
 		current_health = Mathf.Clamp(current_health - damage, 0, max_health);
 
-
 		if (HitType == 2 || current_health <= 0)
 		{
 			currentState = State.FALL;
@@ -246,7 +243,6 @@ public partial class Character : CharacterBody2D
 			currentState = State.HURT;
 		}
 		Velocity = direction * KNOCK_BACK_FORCE;
-
 
 	}
 }

@@ -10,14 +10,14 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "damageEmitter", "damageReceiver", "collisionShape2D", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "collisionShape2D", "damageEmitter", "damageReceiver", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
 damage = 5
 speed = 35
 animation = NodePath("animation")
+collisionShape2D = NodePath("CollisionShape2D")
 damageEmitter = NodePath("DamageEmitter")
 damageReceiver = NodePath("DamageReceiver")
-collisionShape2D = NodePath("CollisionShape2D")
 skin = NodePath("skin")
 stateMachine = NodePath("stateMachine")
 
