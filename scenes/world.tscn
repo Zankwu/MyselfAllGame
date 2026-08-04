@@ -22,16 +22,16 @@ position = Vector2(50, 32)
 [node name="InvisibleWalls" type="Node2D" parent="camera" unique_id=1124716342]
 position = Vector2(-50, -32)
 
-[node name="leftWall" type="StaticBody2D" parent="camera/InvisibleWalls" unique_id=1806232694]
-collision_layer = 16
+[node name="leftWall" type="AnimatableBody2D" parent="camera/InvisibleWalls" unique_id=1727521517]
+collision_layer = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/leftWall" unique_id=311250871]
 position = Vector2(-2.5, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
 
-[node name="rightWall" type="StaticBody2D" parent="camera/InvisibleWalls" unique_id=1332052838]
+[node name="rightWall" type="AnimatableBody2D" parent="camera/InvisibleWalls" unique_id=235761966]
 position = Vector2(105, 0)
-collision_layer = 16
+collision_layer = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/rightWall" unique_id=35427609]
 position = Vector2(-2.5, 32)
@@ -44,6 +44,7 @@ y_sort_enabled = true
 position = Vector2(29, 46)
 collision_layer = 4
 collision_mask = 24
+KNOCK_BACK_FORCE = 15.0
 
 [node name="Barrel" parent="actors" unique_id=519791056 instance=ExtResource("4_k0juu")]
 position = Vector2(86, 54)
@@ -66,5 +67,5 @@ position = Vector2(121, 64)
 player = NodePath("../Player")
 
 [node name="BasicEnemy5" parent="actors" unique_id=1585378720 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(95, 83)
+position = Vector2(85, 62)
 player = NodePath("../Player")

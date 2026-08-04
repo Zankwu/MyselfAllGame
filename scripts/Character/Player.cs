@@ -11,7 +11,10 @@ public partial class Player : Character
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		attack_animations = ["PUNCH", "PUNCH_AIT", "KICK", "ROUND_KICK"];
+
 		base._Ready();
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,12 +35,12 @@ public partial class Player : Character
 
 		if (horizontal > 0)
 		{
-			heading = false;
+			heading = Vector2.Right;
 
 		}
 		else if (horizontal < 0)
 		{
-			heading = true;
+			heading = Vector2.Left;
 		}
 		base.HeadingHandler();
 
@@ -51,6 +54,12 @@ public partial class Player : Character
 
 		if (Input.IsActionJustPressed("attack") && CanPunch())
 		{
+			if (is_last_attack_sucessful)
+			{
+				is_last_attack_sucessful = false;
+				attack_combo_index = (attack_combo_index + 1) % attack_animations.Length;
+
+			}
 			currentState = State.ATTACK;
 		}
 		if (Input.IsActionJustPressed("jump") && CanJump())

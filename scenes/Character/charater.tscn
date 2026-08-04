@@ -10,13 +10,14 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "collisionShape2D", "damageEmitter", "damageReceiver", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "collisionShape2D", "damageEmitter", "chainReactionEmit", "damageReceiver", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
 damage = 5
 speed = 35
 animation = NodePath("animation")
 collisionShape2D = NodePath("CollisionShape2D")
 damageEmitter = NodePath("DamageEmitter")
+chainReactionEmit = NodePath("ChainReactionEmit")
 damageReceiver = NodePath("DamageReceiver")
 skin = NodePath("skin")
 stateMachine = NodePath("stateMachine")
@@ -45,5 +46,8 @@ offset_bottom = 3.0
 
 [node name="DamageReceiver" parent="." unique_id=429159862 instance=ExtResource("5_mhu0h")]
 
+[node name="ChainReactionEmit" parent="." unique_id=1641432407 instance=ExtResource("4_5jlum")]
+
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]
+[editable path="ChainReactionEmit"]
