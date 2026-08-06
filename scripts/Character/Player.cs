@@ -54,11 +54,17 @@ public partial class Player : Character
 
 		if (Input.IsActionJustPressed("attack") && CanPunch())
 		{
-			if (is_last_attack_sucessful)
+			if (hasKnfie)
+			{
+				currentState = State.THROW;
+				Time_Knife_dismiss = Time.GetTicksMsec();
+
+			}
+			else if (is_last_attack_sucessful)
 			{
 				is_last_attack_sucessful = false;
-				attack_combo_index = (attack_combo_index + 1) % attack_animations.Length;
-
+				attack_combo_index = (attack_combo_index + 1)
+				% attack_animations.Length;
 			}
 			currentState = State.ATTACK;
 		}

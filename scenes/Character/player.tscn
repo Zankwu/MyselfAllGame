@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cxg8d6qg72u72" path="res://accetss/art/characters/player.png" id="2_beklg"]
 [ext_resource type="FontFile" uid="uid://c4agqxkh4gvlx" path="res://accetss/fonts/my 3x5 tiny mono pixel font.ttf" id="4_0tuvh"]
 [ext_resource type="PackedScene" uid="uid://cxtspsgjp1poh" path="res://scenes/Character/enemy_slot.tscn" id="5_i7wy1"]
+[ext_resource type="Texture2D" uid="uid://c7oy0sgs2x2jr" path="res://accetss/art/characters/player_knife.png" id="6_8fgnd"]
 
 [sub_resource type="Animation" id="Animation_hpedc"]
 resource_name = "FALL"
@@ -23,6 +24,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [80]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [80]
+}
 
 [sub_resource type="Animation" id="Animation_sygsy"]
 resource_name = "GROUNDED"
@@ -35,6 +48,18 @@ tracks/0/path = NodePath("skin:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [82]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -71,6 +96,18 @@ tracks/1/keys = {
 "method": &"OnActionComplete"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [70, 71, 72]
+}
 
 [sub_resource type="Animation" id="Animation_4mqus"]
 resource_name = "idle"
@@ -84,6 +121,18 @@ tracks/0/path = NodePath("skin:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
@@ -106,6 +155,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [62]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [62]
+}
 
 [sub_resource type="Animation" id="Animation_85mch"]
 resource_name = "JUMPKICK"
@@ -118,6 +179,18 @@ tracks/0/path = NodePath("skin:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [63]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -154,6 +227,18 @@ tracks/1/keys = {
 "method": &"OnActionComplete"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [41, 42, 43, 44, 45]
+}
 
 [sub_resource type="Animation" id="Animation_hxpvn"]
 resource_name = "LAND"
@@ -184,6 +269,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"OnLandComplete"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [60]
 }
 
 [sub_resource type="Animation" id="Animation_8fgnd"]
@@ -228,6 +325,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("KnfieSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.099999994),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [21, 22, 23]
+}
 
 [sub_resource type="Animation" id="Animation_h3n2c"]
 resource_name = "PUNCH_AIT"
@@ -259,6 +368,18 @@ tracks/1/keys = {
 "method": &"OnActionComplete"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [31, 32]
+}
 
 [sub_resource type="Animation" id="Animation_0tuvh"]
 length = 0.001
@@ -285,6 +406,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [80]
 }
 
 [sub_resource type="Animation" id="Animation_mpo6r"]
@@ -317,6 +450,18 @@ tracks/1/keys = {
 "method": &"OnActionComplete"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [51, 52, 53, 54, 55]
+}
 
 [sub_resource type="Animation" id="Animation_gc4mm"]
 resource_name = "TakeOff"
@@ -348,6 +493,60 @@ tracks/1/keys = {
 "method": &"OnTakeOffComplete"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("KnfieSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [61]
+}
+
+[sub_resource type="Animation" id="Animation_pwi7n"]
+resource_name = "THROW"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("KnfieSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [31]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("skin:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [31]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnThrowComplete"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_i7wy1"]
 resource_name = "walk"
@@ -361,6 +560,18 @@ tracks/0/path = NodePath("skin:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
@@ -382,6 +593,7 @@ _data = {
 &"RESET": SubResource("Animation_0tuvh"),
 &"ROUND_KICK": SubResource("Animation_mpo6r"),
 &"TAKEOFF": SubResource("Animation_gc4mm"),
+&"THROW": SubResource("Animation_pwi7n"),
 &"WALK": SubResource("Animation_i7wy1")
 }
 
@@ -394,6 +606,8 @@ size = Vector2(10, 10)
 [node name="Player" unique_id=1402660317 node_paths=PackedStringArray("enemySlots", "labelState") instance=ExtResource("1_hs0k7")]
 script = ExtResource("2_4mqus")
 enemySlots = [NodePath("EnemySlots/EnemySlot"), NodePath("EnemySlots/EnemySlot2"), NodePath("EnemySlots/EnemySlot3"), NodePath("EnemySlots/EnemySlot4")]
+can_respawn = true
+hasKnfie = true
 labelState = NodePath("Panel/Label")
 max_health = 30
 
@@ -454,6 +668,14 @@ position = Vector2(-16, -3)
 
 [node name="EnemySlot4" parent="EnemySlots" index="3" unique_id=1856774837 instance=ExtResource("5_i7wy1")]
 position = Vector2(-16, 3)
+
+[node name="KnfieSprite" parent="." index="10" unique_id=930486354]
+texture = ExtResource("6_8fgnd")
+centered = false
+offset = Vector2(-24, -48)
+hframes = 10
+vframes = 10
+frame = 31
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

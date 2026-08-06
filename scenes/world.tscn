@@ -51,21 +51,12 @@ position = Vector2(86, 54)
 collision_layer = 16
 
 [node name="BasicEnemy" parent="actors" unique_id=112254990 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(11, 55)
+position = Vector2(60, 61)
 player = NodePath("../Player")
+TimeLastAttackDuration_Melee = 2000
 
-[node name="BasicEnemy2" parent="actors" unique_id=582299961 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(71, 55)
+[node name="BasicEnemy2" parent="actors" unique_id=1477765047 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
+position = Vector2(11, 30)
 player = NodePath("../Player")
-
-[node name="BasicEnemy3" parent="actors" unique_id=1459560979 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(116, 47)
-player = NodePath("../Player")
-
-[node name="BasicEnemy4" parent="actors" unique_id=757141873 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(121, 64)
-player = NodePath("../Player")
-
-[node name="BasicEnemy5" parent="actors" unique_id=1585378720 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(85, 62)
-player = NodePath("../Player")
+TimeLastAttackDuration_Melee = 2000
+can_respawn_knife = false

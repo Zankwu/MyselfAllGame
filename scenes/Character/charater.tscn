@@ -10,16 +10,17 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "collisionShape2D", "damageEmitter", "chainReactionEmit", "damageReceiver", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "damageEmitter", "damageReceiver", "knifeSprite", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
-damage = 5
-speed = 35
 animation = NodePath("animation")
-collisionShape2D = NodePath("CollisionShape2D")
-damageEmitter = NodePath("DamageEmitter")
 chainReactionEmit = NodePath("ChainReactionEmit")
+collisionShape2D = NodePath("CollisionShape2D")
+damage = 5
+damageEmitter = NodePath("DamageEmitter")
 damageReceiver = NodePath("DamageReceiver")
+knifeSprite = NodePath("KnfieSprite")
 skin = NodePath("skin")
+speed = 35
 stateMachine = NodePath("stateMachine")
 
 [node name="skin" type="Sprite2D" parent="." unique_id=773792979]
@@ -47,6 +48,8 @@ offset_bottom = 3.0
 [node name="DamageReceiver" parent="." unique_id=429159862 instance=ExtResource("5_mhu0h")]
 
 [node name="ChainReactionEmit" parent="." unique_id=1641432407 instance=ExtResource("4_5jlum")]
+
+[node name="KnfieSprite" type="Sprite2D" parent="." unique_id=930486354]
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

@@ -5,60 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class Character : CharacterBody2D
 {
-	[Export]
-	public bool can_respawn;
-
-	[Export]
-	public Label labelState;
-
-	[Export]
-	public int max_health;
-	public int current_health;
-
-	[Export]
-	public int damage;
-	[Export]
-	public int speed;
-
-	[Export]
-	public AnimationPlayer animation;
-	[Export]
-	public CollisionShape2D collisionShape2D;
-
-	[Export]
-	public DamageEmitter damageEmitter;
-	[Export]
-	public DamageEmitter chainReactionEmit;
-	[Export]
-	public DamageReceiver damageReceiver;
-
-	[Export]
-	public float FLY_FORCE = 100;
-	[Export]
-	public Sprite2D skin;
-
-	[Export]
-	public StateMachine stateMachine;
-	[Export]
-	public float KNOCK_BACK_FORCE = 50;
-	[Export]
-	public float KNOCK_DOWN_FORCE = 70;
-	public float GRAVITY = 600f;
-	public float JUMPFORCE = 150f;
-	public float height = 0f;
-	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
-	public int HitType;
-	public float height_speed = 0f;
-	public State currentState = State.IDLE;
-	public Vector2 heading = Vector2.Right;
-
-	public bool is_last_attack_sucessful;
 	public enum State
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
-		HURT, FALL, GROUNDED, DEATH, FLY,PREP_PUNCH
+		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW
 	}
-
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
 		{State.IDLE,"IDLE"},
@@ -74,17 +25,63 @@ public partial class Character : CharacterBody2D
 		{State.DEATH,"GROUNDED"},
 		{State.FLY,"FLY"},
 		{State.PREP_PUNCH,"IDLE"},
+		{State.THROW,"THROW"},
 	};
-	public string[] attack_animations ;
-
+	[Export]
+	public AnimationPlayer animation;
+	public string[] attack_animations;
 	public int attack_combo_index = 0;
-
+	[Export]
+	public bool can_respawn;
+	[Export]
+	public bool can_respawn_knife = false;
+	[Export]
+	public DamageEmitter chainReactionEmit;
+	[Export]
+	public CollisionShape2D collisionShape2D;
+	public int current_health;
+	public State currentState = State.IDLE;
+	[Export]
+	public int damage;
+	[Export]
+	public DamageEmitter damageEmitter;
+	[Export]
+	public DamageReceiver damageReceiver;
+	[Export]
+	public float FLY_FORCE = 100;
+	public float GRAVITY = 600f;
+	public Vector2 heading = Vector2.Right;
+	public float height = 0f;
+	public float height_speed = 0f;
+	[Export]
+	public bool hasKnfie = false;
+	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
+	public int HitType;
+	public bool is_last_attack_sucessful;
+	public float JUMPFORCE = 150f;
+	[Export]
+	public Sprite2D knifeSprite;
+	[Export]
+	public float KNOCK_BACK_FORCE = 50;
+	[Export]
+	public float KNOCK_DOWN_FORCE = 70;
+	[Export]
+	public Label labelState;
+	[Export]
+	public int max_health;
+	[Export]
+	public Sprite2D skin;
+	[Export]
+	public int speed;
+	[Export]
+	public StateMachine stateMachine;
+	public ulong Time_Death_Start = Time.GetTicksMsec();
 	[Export]
 	public ulong Time_Grounded_Duration = 1000;
-
 	public ulong Time_Grounded_Start = Time.GetTicksMsec();
-	public ulong Time_Death_Start = Time.GetTicksMsec();
-
+	[Export]
+	public ulong Time_Knife_Respawn_duration = 2000;
+	public ulong Time_Knife_dismiss = Time.GetTicksMsec();
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -110,6 +107,7 @@ public partial class Character : CharacterBody2D
 		MoveHandler();
 		FlipScale();
 		PrepAttackHandler();
+		KnifeRespawnHandler();
 		MoveAndSlide();
 
 
@@ -121,7 +119,8 @@ public partial class Character : CharacterBody2D
 		damageEmitter.Monitoring = currentState == State.ATTACK || currentState == State.JUMPKICK;
 		collisionShape2D.Disabled = IsCollisionShape2DEnable();
 		skin.Position = Vector2.Up * height;
-
+		knifeSprite.Position = Vector2.Up * height;
+		knifeSprite.Visible = hasKnfie;
 		chainReactionEmit.Monitoring = currentState == State.FLY;
 
 	}
@@ -161,11 +160,13 @@ public partial class Character : CharacterBody2D
 		{
 			damageEmitter.Scale = new Vector2(1, damageEmitter.Scale.Y);
 			skin.FlipH = false;
+			knifeSprite.FlipH = false;
 		}
 		else if (heading == Vector2.Left)
 		{
 			damageEmitter.Scale = new Vector2(-1, damageEmitter.Scale.Y);
 			skin.FlipH = true;
+			knifeSprite.FlipH = true;
 		}
 	}
 	public virtual void AnimationHandler()
@@ -243,7 +244,14 @@ public partial class Character : CharacterBody2D
 		}
 
 	}
-
+	public virtual void KnifeRespawnHandler()
+	{
+		if (can_respawn_knife && !hasKnfie &&
+		(Time.GetTicksMsec() - Time_Knife_dismiss > Time_Knife_Respawn_duration))
+		{
+			hasKnfie = true;
+		}
+	}
 	public virtual void InputHandler()
 	{
 
@@ -269,7 +277,7 @@ public partial class Character : CharacterBody2D
 	{
 		return currentState == State.IDLE || currentState == State.WALK
 		|| currentState == State.TAKEOFF || currentState == State.LAND
-		|| currentState == State.JUMP
+		// || currentState == State.JUMP
 		;
 	}
 	public void OnActionComplete()
@@ -283,6 +291,11 @@ public partial class Character : CharacterBody2D
 	public void OnLandComplete()
 	{
 		currentState = State.IDLE;
+	}
+	public void OnThrowComplete()
+	{
+		currentState = State.IDLE;
+		hasKnfie = false;
 	}
 	public void OnDamageEmit(Area2D area)
 	{
@@ -309,6 +322,8 @@ public partial class Character : CharacterBody2D
 	{
 		if (CanGetHurt())
 		{
+			hasKnfie = false;
+			Time_Knife_dismiss = Time.GetTicksMsec();
 			current_health = Mathf.Clamp(current_health - damage, 0, max_health);
 
 			if (HitType == 2 || current_health <= 0)

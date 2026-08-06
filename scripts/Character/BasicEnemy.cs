@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class BasicEnemy : Character
 {
@@ -12,13 +13,13 @@ public partial class BasicEnemy : Character
 	public EnemySlot enemySlot;
 
 	[Export]
-	public ulong TimeLastAttackDuration = 2000;
+	public ulong TimeLastAttackDuration_Melee = 2000;
 
 	[Export]
 	public ulong TimePrepAttackDuration = 500;
 
 	public ulong TimePrepAttackStart = Time.GetTicksMsec();
-	public ulong TimeLastAttackStart = Time.GetTicksMsec();
+	public ulong TimeLastAttackStart_Melee = Time.GetTicksMsec();
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -50,7 +51,7 @@ public partial class BasicEnemy : Character
 		{
 			currentState = State.ATTACK;
 			attack_animations = attack_animations.Shuffle().ToArray();
-			TimeLastAttackStart = Time.GetTicksMsec();
+			TimeLastAttackStart_Melee = Time.GetTicksMsec();
 			GD.Print(attack_animations[0]);
 		}
 	}
@@ -60,30 +61,96 @@ public partial class BasicEnemy : Character
 	{
 		if (player != null && CanMove())
 		{
-			if (enemySlot == null)
+			if (can_respawn_knife)
 			{
-				enemySlot = player.ReserveSlot(this);
+				AttackWithRange();
 			}
-
-			if (enemySlot != null)
+			else
 			{
-				if (IsPlayerWithInRange())
-				{
-					Velocity = Vector2.Zero;
-					if (CanPunch())
-					{
-						currentState = State.PREP_PUNCH;
-						TimePrepAttackStart = Time.GetTicksMsec();
-					}
-
-				}
-				else
-				{
-					var direciton = (enemySlot.GlobalPosition - Position).Normalized();
-					Velocity = direciton * speed;
-				}
+				AttackWithMelee();
 			}
+		}
+	}
+	public void AttackWithRange()
+	{
+		var camera = GetViewport().GetCamera2D();
+		var screenWidth = GetViewportRect().Size.X;
 
+		var screenLeft = camera.Position.X - screenWidth / 2;
+		var screenRight = camera.Position.X + screenWidth / 2;
+
+		Vector2 clostPosition = Vector2.Zero;
+		Vector2 targetLeft = new Vector2(screenLeft, player.Position.Y);
+		Vector2 targetRight = new Vector2(screenRight, player.Position.Y);
+
+		if ((targetLeft - Position).Length() < (targetRight - Position).Length())
+		{
+			clostPosition = targetLeft;
+		}
+		else
+		{
+			clostPosition = targetRight;
+		}
+		if ((clostPosition - Position).Length() < 1)
+		{
+			Velocity = Vector2.Zero;
+		}
+		else
+		{
+			Velocity = (clostPosition - Position).Normalized() * speed;
+		}
+
+	}
+	// Camera2D camera = GetViewport().GetCamera2D();
+	// float screenWidth = GetViewportRect().Size.X;
+	// var screenLeft = camera.Position.X - screenWidth / 2;
+	// var screenRight = camera.Position.X + screenWidth / 2;
+
+	// Vector2 clostPosition = Vector2.Zero;
+	// Vector2 targetLeft = new Vector2(screenLeft, player.Position.Y);
+	// Vector2 targetRight = new Vector2(screenRight, player.Position.Y);
+
+	// if ((targetLeft - Position).Length() < (targetRight - Position).Length())
+	// {
+	// 	clostPosition = targetLeft;
+	// }
+	// else
+	// {
+	// 	clostPosition = targetRight;
+	// }
+	// if ((Position - clostPosition).Length() < 1)
+	// {
+	// 	Velocity = Vector2.Zero;
+	// }
+	// else
+	// {
+	// 	Velocity = (clostPosition - Position).Normalized() * speed;
+
+	// }
+	public void AttackWithMelee()
+	{
+		if (enemySlot == null)
+		{
+			enemySlot = player.ReserveSlot(this);
+		}
+
+		if (enemySlot != null)
+		{
+			if (IsPlayerWithInRange())
+			{
+				Velocity = Vector2.Zero;
+				if (CanPunch())
+				{
+					currentState = State.PREP_PUNCH;
+					TimePrepAttackStart = Time.GetTicksMsec();
+				}
+
+			}
+			else
+			{
+				var direciton = (enemySlot.GlobalPosition - Position).Normalized();
+				Velocity = direciton * speed;
+			}
 		}
 	}
 
@@ -94,7 +161,7 @@ public partial class BasicEnemy : Character
 
 	public override bool CanPunch()
 	{
-		if ((Time.GetTicksMsec() - TimeLastAttackStart) < TimeLastAttackDuration)
+		if ((Time.GetTicksMsec() - TimeLastAttackStart_Melee) < TimeLastAttackDuration_Melee)
 		{
 			return false;
 		}
