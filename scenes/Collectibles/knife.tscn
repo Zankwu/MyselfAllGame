@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://dbflvlje7s8fw"]
+
+[ext_resource type="PackedScene" uid="uid://d2vsn3geabufi" path="res://scenes/Collectibles/collectible.tscn" id="1_kd3f5"]
+[ext_resource type="Texture2D" uid="uid://dir1452cjvhn7" path="res://accetss/art/props/knife.png" id="2_8inpi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8inpi"]
+
+[sub_resource type="Animation" id="Animation_8inpi"]
+resource_name = "FLY"
+length = 0.19999999999999998
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04995789, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 1.5707964, 3.1415927, 4.712389]
+}
+
+[sub_resource type="Animation" id="Animation_pd60g"]
+resource_name = "FLY"
+length = 0.1
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_hk0so"]
+resource_name = "GROUNDED"
+length = 0.1
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("skin:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+
+[sub_resource type="Animation" id="Animation_qcgnh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("skin:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hk0so"]
+_data = {
+&"FALL": SubResource("Animation_8inpi"),
+&"FLY": SubResource("Animation_pd60g"),
+&"GROUNDED": SubResource("Animation_hk0so"),
+&"RESET": SubResource("Animation_qcgnh")
+}
+
+[node name="Collectible" unique_id=1532719865 instance=ExtResource("1_kd3f5")]
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=638720840]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_8inpi")
+
+[node name="skin" parent="." index="1" unique_id=1809195866]
+position = Vector2(0, -8)
+texture = ExtResource("2_8inpi")
+centered = false
+offset = Vector2(-8, -8)
+
+[node name="AnimationPlayer" parent="." index="3" unique_id=918392903]
+libraries/ = SubResource("AnimationLibrary_hk0so")
+autoplay = &"FALL"

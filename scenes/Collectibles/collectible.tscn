@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://d2vsn3geabufi"]
+
+[ext_resource type="Script" uid="uid://bs43lqmrunr1w" path="res://scripts/Collectible/Collectible.cs" id="1_keffq"]
+[ext_resource type="PackedScene" uid="uid://chb5xp8vyco47" path="res://scenes/Colliders/DamageEmitter.tscn" id="1_vul8q"]
+[ext_resource type="Texture2D" uid="uid://bn2irjt8ujixn" path="res://accetss/art/props/prop-shadow.png" id="2_8f1e6"]
+
+[node name="Collectible" type="Area2D" unique_id=1532719865 node_paths=PackedStringArray("skin", "animationPlayer")]
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_keffq")
+skin = NodePath("skin")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=638720840]
+
+[node name="skin" type="Sprite2D" parent="." unique_id=1809195866]
+
+[node name="shadow" type="Sprite2D" parent="." unique_id=1786805274]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=918392903]
+
+[node name="DamageEmitter" parent="." unique_id=1552358143 instance=ExtResource("1_vul8q")]
+
+[node name="PropShadow" type="Sprite2D" parent="." unique_id=949614939]
+texture = ExtResource("2_8f1e6")
+centered = false
+offset = Vector2(-3, -1)

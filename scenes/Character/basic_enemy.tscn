@@ -418,9 +418,11 @@ size = Vector2(10, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mhu0h"]
 size = Vector2(6, 6)
 
-[node name="BasicEnemy" unique_id=1402660317 instance=ExtResource("1_qmscb")]
+[node name="BasicEnemy" unique_id=1402660317 node_paths=PackedStringArray("rayCast2D") instance=ExtResource("1_qmscb")]
 script = ExtResource("2_e01l2")
-TimeLastAttackDuration = 2000
+rayCast2D = NodePath("RayCast2D")
+TimeLastAttackDuration_Melee = 2000
+TimeLastAttackDuration_Range = 2000
 TimePrepAttackDuration = 500
 can_respawn_knife = true
 damage = 2
@@ -467,6 +469,11 @@ offset = Vector2(-24, -48)
 hframes = 10
 vframes = 10
 frame = 31
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="10" unique_id=2019887490]
+rotation = -1.5707964
+target_position = Vector2(0, 100)
+collision_mask = 36
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

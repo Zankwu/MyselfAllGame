@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c5w6iew34jul0" path="res://scenes/Character/player.tscn" id="2_rwgxs"]
 [ext_resource type="PackedScene" uid="uid://dhg77li0xne8f" path="res://scenes/Actors/barrel.tscn" id="4_k0juu"]
 [ext_resource type="PackedScene" uid="uid://6nteqf2waunv" path="res://scenes/Character/basic_enemy.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://dbflvlje7s8fw" path="res://scenes/Collectibles/knife.tscn" id="6_qfnet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ek4p"]
 size = Vector2(7, 64)
@@ -53,10 +54,10 @@ collision_layer = 16
 [node name="BasicEnemy" parent="actors" unique_id=112254990 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
 position = Vector2(60, 61)
 player = NodePath("../Player")
-TimeLastAttackDuration_Melee = 2000
 
 [node name="BasicEnemy2" parent="actors" unique_id=1477765047 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
 position = Vector2(11, 30)
 player = NodePath("../Player")
-TimeLastAttackDuration_Melee = 2000
-can_respawn_knife = false
+
+[node name="Collectible" parent="actors" unique_id=1532719865 instance=ExtResource("6_qfnet")]
+position = Vector2(64, 30)

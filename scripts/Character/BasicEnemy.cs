@@ -5,21 +5,28 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class BasicEnemy : Character
 {
+	[Export]
+	public RayCast2D rayCast2D;
+
+	public float EDGE_SCRREN_BUFFER = 8;
 
 
+	public EnemySlot enemySlot;
 	[Export]
 	public Player player;
 
-	public EnemySlot enemySlot;
-
 	[Export]
 	public ulong TimeLastAttackDuration_Melee = 2000;
+	[Export]
+	public ulong TimeLastAttackDuration_Range = 2000;
+
 
 	[Export]
 	public ulong TimePrepAttackDuration = 500;
 
 	public ulong TimePrepAttackStart = Time.GetTicksMsec();
 	public ulong TimeLastAttackStart_Melee = Time.GetTicksMsec();
+	public ulong TimeLastAttackStart_Range = Time.GetTicksMsec();
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -42,6 +49,7 @@ public partial class BasicEnemy : Character
 		{
 			heading = Vector2.Left;
 		}
+		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1,1) : new Vector2(-1,-1);
 		base.HeadingHandler();
 	}
 
@@ -80,8 +88,8 @@ public partial class BasicEnemy : Character
 		var screenRight = camera.Position.X + screenWidth / 2;
 
 		Vector2 clostPosition = Vector2.Zero;
-		Vector2 targetLeft = new Vector2(screenLeft, player.Position.Y);
-		Vector2 targetRight = new Vector2(screenRight, player.Position.Y);
+		Vector2 targetLeft = new Vector2(screenLeft + EDGE_SCRREN_BUFFER / 2, player.Position.Y);
+		Vector2 targetRight = new Vector2(screenRight - EDGE_SCRREN_BUFFER, player.Position.Y);
 
 		if ((targetLeft - Position).Length() < (targetRight - Position).Length())
 		{
@@ -100,33 +108,14 @@ public partial class BasicEnemy : Character
 			Velocity = (clostPosition - Position).Normalized() * speed;
 		}
 
+		if (CanThrow() && hasKnfie && rayCast2D.IsColliding())
+		{
+			currentState = State.THROW;
+			Time_Knife_dismiss = Time.GetTicksMsec();
+			TimeLastAttackStart_Range = Time.GetTicksMsec();
+		}
 	}
-	// Camera2D camera = GetViewport().GetCamera2D();
-	// float screenWidth = GetViewportRect().Size.X;
-	// var screenLeft = camera.Position.X - screenWidth / 2;
-	// var screenRight = camera.Position.X + screenWidth / 2;
 
-	// Vector2 clostPosition = Vector2.Zero;
-	// Vector2 targetLeft = new Vector2(screenLeft, player.Position.Y);
-	// Vector2 targetRight = new Vector2(screenRight, player.Position.Y);
-
-	// if ((targetLeft - Position).Length() < (targetRight - Position).Length())
-	// {
-	// 	clostPosition = targetLeft;
-	// }
-	// else
-	// {
-	// 	clostPosition = targetRight;
-	// }
-	// if ((Position - clostPosition).Length() < 1)
-	// {
-	// 	Velocity = Vector2.Zero;
-	// }
-	// else
-	// {
-	// 	Velocity = (clostPosition - Position).Normalized() * speed;
-
-	// }
 	public void AttackWithMelee()
 	{
 		if (enemySlot == null)
@@ -166,6 +155,15 @@ public partial class BasicEnemy : Character
 			return false;
 		}
 		return base.CanPunch();
+	}
+
+	public bool CanThrow()
+	{
+		if (Time.GetTicksMsec() - TimeLastAttackStart_Range < TimeLastAttackDuration_Range)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public override void OnDamageReceiver(int damage, Vector2 direction, int HitType)
