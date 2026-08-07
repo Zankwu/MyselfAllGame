@@ -43,7 +43,6 @@ y_sort_enabled = true
 
 [node name="Player" parent="actors" unique_id=1402660317 instance=ExtResource("2_rwgxs")]
 position = Vector2(29, 46)
-collision_layer = 4
 collision_mask = 24
 KNOCK_BACK_FORCE = 15.0
 
@@ -54,10 +53,12 @@ collision_layer = 16
 [node name="BasicEnemy" parent="actors" unique_id=112254990 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
 position = Vector2(60, 61)
 player = NodePath("../Player")
+hasKnfie = true
 
 [node name="BasicEnemy2" parent="actors" unique_id=1477765047 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
 position = Vector2(11, 30)
 player = NodePath("../Player")
 
 [node name="Collectible" parent="actors" unique_id=1532719865 instance=ExtResource("6_qfnet")]
-position = Vector2(64, 30)
+position = Vector2(66, 38)
+collision_layer = 0

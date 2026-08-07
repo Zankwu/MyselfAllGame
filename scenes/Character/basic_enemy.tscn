@@ -424,9 +424,8 @@ rayCast2D = NodePath("RayCast2D")
 TimeLastAttackDuration_Melee = 2000
 TimeLastAttackDuration_Range = 2000
 TimePrepAttackDuration = 500
-can_respawn_knife = true
-damage = 2
 max_health = 20
+damage = 2
 speed = 25
 
 [node name="skin" parent="." index="0" unique_id=773792979]

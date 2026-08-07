@@ -23,6 +23,7 @@ public partial class Collectible : Area2D
 		FALL, GROUNDED, FLY
 	}
 
+
 	public Dictionary<State, string> animationMaps = new Dictionary<State, string>()
 	{
 		{State.FALL,"FALL"},
@@ -33,9 +34,14 @@ public partial class Collectible : Area2D
 	public override void _Ready()
 	{
 		height_speed = KNOCK_DOWN_FROCE;
+
 	}
 
+
+
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
+
 	public override void _Process(double delta)
 	{
 		FallHandler((float)delta);
@@ -58,9 +64,7 @@ public partial class Collectible : Area2D
 				height = 0;
 				currentState = State.GROUNDED;
 			}
-			else
-				height_speed -= GRAVITY * delta;
-			GD.Print(height_speed);
+			height_speed -= GRAVITY * delta;
 		}
 	}
 

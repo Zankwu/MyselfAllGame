@@ -604,10 +604,10 @@ size = Vector2(10, 6)
 size = Vector2(10, 10)
 
 [node name="Player" unique_id=1402660317 node_paths=PackedStringArray("enemySlots", "labelState") instance=ExtResource("1_hs0k7")]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("2_4mqus")
 enemySlots = [NodePath("EnemySlots/EnemySlot"), NodePath("EnemySlots/EnemySlot2"), NodePath("EnemySlots/EnemySlot3"), NodePath("EnemySlots/EnemySlot4")]
-can_respawn = true
-hasKnfie = true
 labelState = NodePath("Panel/Label")
 max_health = 30
 

@@ -7,12 +7,10 @@ public partial class Player : Character
 {
 	[Export]
 	public EnemySlot[] enemySlots;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT", "KICK", "ROUND_KICK"];
-
 		base._Ready();
 
 	}
@@ -20,6 +18,7 @@ public partial class Player : Character
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 		base._Process(delta);
 	}
 
@@ -58,7 +57,6 @@ public partial class Player : Character
 			{
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
-
 			}
 			else if (is_last_attack_sucessful)
 			{
@@ -66,7 +64,10 @@ public partial class Player : Character
 				attack_combo_index = (attack_combo_index + 1)
 				% attack_animations.Length;
 			}
-			currentState = State.ATTACK;
+			else
+			{
+				currentState = State.ATTACK;
+			}
 		}
 		if (Input.IsActionJustPressed("jump") && CanJump())
 		{

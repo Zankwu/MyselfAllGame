@@ -7,7 +7,7 @@
 
 [sub_resource type="Animation" id="Animation_8inpi"]
 resource_name = "FLY"
-length = 0.19999999999999998
+length = 0.2
 loop_mode = 1
 step = 0.5
 tracks/0/type = "value"
@@ -107,6 +107,7 @@ _data = {
 }
 
 [node name="Collectible" unique_id=1532719865 instance=ExtResource("1_kd3f5")]
+collision_mask = 4
 
 [node name="CollisionShape2D" parent="." index="0" unique_id=638720840]
 position = Vector2(0, -3)
@@ -118,6 +119,6 @@ texture = ExtResource("2_8inpi")
 centered = false
 offset = Vector2(-8, -8)
 
-[node name="AnimationPlayer" parent="." index="3" unique_id=918392903]
+[node name="AnimationPlayer" parent="." index="2" unique_id=918392903]
 libraries/ = SubResource("AnimationLibrary_hk0so")
 autoplay = &"FALL"

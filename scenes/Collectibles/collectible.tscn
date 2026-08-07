@@ -6,7 +6,7 @@
 
 [node name="Collectible" type="Area2D" unique_id=1532719865 node_paths=PackedStringArray("skin", "animationPlayer")]
 collision_layer = 256
-collision_mask = 0
+collision_mask = 4
 script = ExtResource("1_keffq")
 skin = NodePath("skin")
 animationPlayer = NodePath("AnimationPlayer")
@@ -14,8 +14,6 @@ animationPlayer = NodePath("AnimationPlayer")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=638720840]
 
 [node name="skin" type="Sprite2D" parent="." unique_id=1809195866]
-
-[node name="shadow" type="Sprite2D" parent="." unique_id=1786805274]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=918392903]
 

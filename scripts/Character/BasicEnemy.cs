@@ -69,7 +69,7 @@ public partial class BasicEnemy : Character
 	{
 		if (player != null && CanMove())
 		{
-			if (can_respawn_knife)
+			if (can_respawn_knife || hasKnfie)
 			{
 				AttackWithRange();
 			}
