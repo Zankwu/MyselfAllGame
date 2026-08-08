@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PreState="uid://cmaldh8idddsg"
+EntityManager="*uid://cy02rgw2jld7c"
 
 [display]
 

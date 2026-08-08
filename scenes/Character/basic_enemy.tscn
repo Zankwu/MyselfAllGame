@@ -515,6 +515,9 @@ hframes = 10
 vframes = 10
 frame = 70
 
+[node name="WeponPosition" parent="KnfieSprite" index="0" unique_id=1529538129]
+position = Vector2(10, -12)
+
 [node name="RayCast2D" type="RayCast2D" parent="." index="10" unique_id=2019887490]
 rotation = -1.5707964
 target_position = Vector2(0, 100)

@@ -9,9 +9,14 @@ public partial class Collectible : Area2D
 	public Sprite2D skin;
 	[Export]
 	public AnimationPlayer animationPlayer;
-	public float speed;
+	[Export]
+	public float speed = 25;
 	public float height;
 	public float height_speed;
+
+	public Vector2 heading;
+
+	public Vector2 velocity;
 
 	public float GRAVITY = 600f;
 	[Export]
@@ -25,7 +30,7 @@ public partial class Collectible : Area2D
 	}
 	public enum TYPE
 	{
-		KNIFE,GUN,FOOD
+		KNIFE, GUN, FOOD
 	}
 	[Export]
 	public TYPE currentType;
@@ -51,6 +56,16 @@ public partial class Collectible : Area2D
 	public override void _Process(double delta)
 	{
 		FallHandler((float)delta);
+		if (currentState == State.FLY)
+		{
+			velocity = heading * speed;
+			Position += velocity * (float)delta;
+			if (heading.X != 0)
+			{
+				skin.FlipH = heading.X < 0;
+			}
+		}
+
 		AnimationHandler();
 		skin.Position = Vector2.Up * height;
 		Monitorable = currentState == State.GROUNDED;

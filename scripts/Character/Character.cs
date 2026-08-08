@@ -60,6 +60,8 @@ public partial class Character : CharacterBody2D
 	public bool hasKnfie = false;
 	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
 	public int HitType;
+	[Export]
+	public Node2D weaponPositon;
 	public bool is_last_attack_sucessful;
 	public float JUMPFORCE = 150f;
 	[Export]
@@ -164,12 +166,14 @@ public partial class Character : CharacterBody2D
 			damageEmitter.Scale = new Vector2(1, damageEmitter.Scale.Y);
 			skin.FlipH = false;
 			knifeSprite.FlipH = false;
+			// knifeSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
 		}
 		else if (heading == Vector2.Left)
 		{
 			damageEmitter.Scale = new Vector2(-1, damageEmitter.Scale.Y);
-			skin.FlipH = true;
 			knifeSprite.FlipH = true;
+			skin.FlipH = true;
+			// knifeSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
 		}
 	}
 	public virtual void AnimationHandler()

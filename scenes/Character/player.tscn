@@ -650,12 +650,13 @@ size = Vector2(10, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mhu0h"]
 size = Vector2(3, 3)
 
-[node name="Player" unique_id=1402660317 node_paths=PackedStringArray("enemySlots", "collectibleSensor", "labelState") instance=ExtResource("1_hs0k7")]
+[node name="Player" unique_id=1402660317 node_paths=PackedStringArray("enemySlots", "labelState") instance=ExtResource("1_hs0k7")]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2_4mqus")
 enemySlots = [NodePath("EnemySlots/EnemySlot"), NodePath("EnemySlots/EnemySlot2"), NodePath("EnemySlots/EnemySlot3"), NodePath("EnemySlots/EnemySlot4")]
-collectibleSensor = NodePath("CollectibleSensor")
+can_respawn_knife = true
+hasKnfie = true
 labelState = NodePath("Panel/Label")
 max_health = 30
 
@@ -723,14 +724,12 @@ centered = false
 offset = Vector2(-24, -48)
 hframes = 10
 vframes = 10
-frame = 66
+frame = 31
 
-[node name="CollectibleSensor" parent="." index="11" unique_id=1295150140]
-collision_layer = 0
-collision_mask = 256
-monitorable = false
+[node name="WeponPosition" parent="KnfieSprite" index="0" unique_id=1529538129]
+position = Vector2(12, -13)
 
-[node name="CollisionShape2D" parent="CollectibleSensor" index="0" unique_id=810044164]
+[node name="CollisionShape2D" parent="CollectibleSensor" parent_id_path=PackedInt32Array(1295150140) index="0" unique_id=810044164]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_mhu0h")
 debug_color = Color(0.70502937, 0.27083534, 1, 0.41960785)

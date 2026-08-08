@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dppowj31yj8oo"]
+
+[ext_resource type="Script" uid="uid://cy02rgw2jld7c" path="res://scripts/actor/EntityManager.cs" id="1_aklue"]
+
+[node name="EntityManager" type="Node" unique_id=964371685]
+script = ExtResource("1_aklue")

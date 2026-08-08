@@ -22,12 +22,10 @@ public partial class Player : Character
 
 	private void OnCollectibleEntered(Node2D body)
 	{
-
 		if (Input.IsActionJustPressed("attack") && !hasKnfie)
 		{
 			currentState = State.PICKUP;
 			hasKnfie = true;
-
 		}
 	}
 
@@ -36,6 +34,7 @@ public partial class Player : Character
 	{
 
 		base._Process(delta);
+		
 	}
 
 	public override void AnimationHandler()
@@ -73,6 +72,10 @@ public partial class Player : Character
 			{
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
+                EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)Collectible.TYPE.KNIFE,
+				(int)Collectible.State.FLY,weaponPositon.GlobalPosition,heading
+				);
+
 			}
 			else if (CanPickUpCollectible())
 			{
