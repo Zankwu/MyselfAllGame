@@ -209,6 +209,48 @@ tracks/2/keys = {
 "values": [70]
 }
 
+[sub_resource type="Animation" id="Animation_hced6"]
+resource_name = "PICKUP"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [70]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KnfieSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [70]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPickUpComplete"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_4g3f2"]
 resource_name = "PUNCH"
 length = 0.2
@@ -402,6 +444,7 @@ _data = {
 &"HURT": SubResource("Animation_g1ddv"),
 &"IDLE": SubResource("Animation_2svwa"),
 &"LAND": SubResource("Animation_g5fq4"),
+&"PICKUP": SubResource("Animation_hced6"),
 &"PUNCH": SubResource("Animation_4g3f2"),
 &"PUNCH_AIT": SubResource("Animation_etspp"),
 &"RESET": SubResource("Animation_e01l2"),
@@ -418,14 +461,17 @@ size = Vector2(10, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mhu0h"]
 size = Vector2(6, 6)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_najrd"]
+size = Vector2(3, 3)
+
 [node name="BasicEnemy" unique_id=1402660317 node_paths=PackedStringArray("rayCast2D") instance=ExtResource("1_qmscb")]
 script = ExtResource("2_e01l2")
 rayCast2D = NodePath("RayCast2D")
 TimeLastAttackDuration_Melee = 2000
 TimeLastAttackDuration_Range = 2000
 TimePrepAttackDuration = 500
-max_health = 20
 damage = 2
+max_health = 20
 speed = 25
 
 [node name="skin" parent="." index="0" unique_id=773792979]
@@ -467,12 +513,16 @@ centered = false
 offset = Vector2(-24, -48)
 hframes = 10
 vframes = 10
-frame = 31
+frame = 70
 
 [node name="RayCast2D" type="RayCast2D" parent="." index="10" unique_id=2019887490]
 rotation = -1.5707964
 target_position = Vector2(0, 100)
 collision_mask = 36
+
+[node name="CollisionShape2D" parent="CollectibleSensor" parent_id_path=PackedInt32Array(1295150140) index="0" unique_id=810044164]
+shape = SubResource("RectangleShape2D_najrd")
+debug_color = Color(0.72897094, 0.2376383, 1, 0.41960785)
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

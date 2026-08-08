@@ -10,11 +10,12 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "damageEmitter", "damageReceiver", "knifeSprite", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "collectibleSensor", "damageEmitter", "damageReceiver", "knifeSprite", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
 animation = NodePath("animation")
 chainReactionEmit = NodePath("ChainReactionEmit")
 collisionShape2D = NodePath("CollisionShape2D")
+collectibleSensor = NodePath("CollectibleSensor")
 damage = 5
 damageEmitter = NodePath("DamageEmitter")
 damageReceiver = NodePath("DamageReceiver")
@@ -50,6 +51,13 @@ offset_bottom = 3.0
 [node name="ChainReactionEmit" parent="." unique_id=1641432407 instance=ExtResource("4_5jlum")]
 
 [node name="KnfieSprite" type="Sprite2D" parent="." unique_id=930486354]
+
+[node name="CollectibleSensor" type="Area2D" parent="." unique_id=1295150140]
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectibleSensor" unique_id=810044164]
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

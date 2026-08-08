@@ -50,15 +50,8 @@ KNOCK_BACK_FORCE = 15.0
 position = Vector2(86, 54)
 collision_layer = 16
 
-[node name="BasicEnemy" parent="actors" unique_id=112254990 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(60, 61)
-player = NodePath("../Player")
-hasKnfie = true
-
-[node name="BasicEnemy2" parent="actors" unique_id=1477765047 node_paths=PackedStringArray("player") instance=ExtResource("5_71j4m")]
-position = Vector2(11, 30)
-player = NodePath("../Player")
-
 [node name="Collectible" parent="actors" unique_id=1532719865 instance=ExtResource("6_qfnet")]
 position = Vector2(66, 38)
-collision_layer = 0
+
+[node name="BasicEnemy" parent="actors" unique_id=2013915592 instance=ExtResource("5_71j4m")]
+position = Vector2(10, 44)

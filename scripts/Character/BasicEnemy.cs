@@ -33,6 +33,7 @@ public partial class BasicEnemy : Character
 	public override void _Ready()
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT"];
+		player = GetNode<Player>("../Player");
 		base._Ready();
 	}
 
@@ -49,7 +50,7 @@ public partial class BasicEnemy : Character
 		{
 			heading = Vector2.Left;
 		}
-		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1,1) : new Vector2(-1,-1);
+		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
 		base.HeadingHandler();
 	}
 
@@ -118,7 +119,12 @@ public partial class BasicEnemy : Character
 
 	public void AttackWithMelee()
 	{
-		if (enemySlot == null)
+		if (CanPickUpCollectible())
+		{
+			currentState = State.PICKUP;
+			player.FreeEnemySlot(this);
+		}
+		else if (enemySlot == null)
 		{
 			enemySlot = player.ReserveSlot(this);
 		}

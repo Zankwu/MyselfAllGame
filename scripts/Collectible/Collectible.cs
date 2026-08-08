@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class Collectible : Area2D
 {
@@ -22,7 +23,12 @@ public partial class Collectible : Area2D
 	{
 		FALL, GROUNDED, FLY
 	}
-
+	public enum TYPE
+	{
+		KNIFE,GUN,FOOD
+	}
+	[Export]
+	public TYPE currentType;
 
 	public Dictionary<State, string> animationMaps = new Dictionary<State, string>()
 	{
@@ -47,6 +53,7 @@ public partial class Collectible : Area2D
 		FallHandler((float)delta);
 		AnimationHandler();
 		skin.Position = Vector2.Up * height;
+		Monitorable = currentState == State.GROUNDED;
 	}
 
 	private void AnimationHandler()
@@ -67,5 +74,4 @@ public partial class Collectible : Area2D
 			height_speed -= GRAVITY * delta;
 		}
 	}
-
 }

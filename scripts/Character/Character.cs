@@ -1,14 +1,13 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 public partial class Character : CharacterBody2D
 {
 	public enum State
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
-		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW
+		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP
 	}
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
@@ -26,6 +25,7 @@ public partial class Character : CharacterBody2D
 		{State.FLY,"FLY"},
 		{State.PREP_PUNCH,"IDLE"},
 		{State.THROW,"THROW"},
+		{State.PICKUP,"PICKUP"},
 	};
 	[Export]
 	public AnimationPlayer animation;
@@ -41,6 +41,9 @@ public partial class Character : CharacterBody2D
 	public CollisionShape2D collisionShape2D;
 	public int current_health;
 	public State currentState = State.IDLE;
+
+	[Export]
+	public Area2D collectibleSensor;
 	[Export]
 	public int damage;
 	[Export]
@@ -280,6 +283,28 @@ public partial class Character : CharacterBody2D
 		// || currentState == State.JUMP
 		;
 	}
+	public bool CanPickUpCollectible()
+	{
+		Area2D[] areas = collectibleSensor.GetOverlappingAreas().ToArray();
+		if (areas.Length < 1)
+		{
+			return false;
+		}
+		Collectible tempColl = areas[0] as Collectible;
+		if (tempColl.currentType == Collectible.TYPE.KNIFE && !hasKnfie)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public void PickUpCollectible()
+	{
+		Area2D[] areas = collectibleSensor.GetOverlappingAreas().ToArray();
+		Collectible tempColl = areas[0] as Collectible;
+		hasKnfie = true;
+		tempColl.QueueFree();
+	}
 	public void OnActionComplete()
 	{
 		currentState = State.IDLE;
@@ -297,6 +322,12 @@ public partial class Character : CharacterBody2D
 		currentState = State.IDLE;
 		hasKnfie = false;
 	}
+	public void OnPickUpComplete()
+	{
+		currentState = State.IDLE;
+		PickUpCollectible();
+	}
+
 	public void OnDamageEmit(Area2D area)
 	{
 		is_last_attack_sucessful = true;
@@ -323,6 +354,7 @@ public partial class Character : CharacterBody2D
 		if (CanGetHurt())
 		{
 			hasKnfie = false;
+			can_respawn_knife = false;
 			Time_Knife_dismiss = Time.GetTicksMsec();
 			current_health = Mathf.Clamp(current_health - damage, 0, max_health);
 

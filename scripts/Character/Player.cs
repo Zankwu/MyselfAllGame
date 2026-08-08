@@ -2,17 +2,33 @@ using Godot;
 using System;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Security.Principal;
 
 public partial class Player : Character
 {
 	[Export]
 	public EnemySlot[] enemySlots;
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT", "KICK", "ROUND_KICK"];
+
 		base._Ready();
 
+
+	}
+
+	private void OnCollectibleEntered(Node2D body)
+	{
+
+		if (Input.IsActionJustPressed("attack") && !hasKnfie)
+		{
+			currentState = State.PICKUP;
+			hasKnfie = true;
+
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,7 +61,7 @@ public partial class Player : Character
 
 	}
 
-
+	
 	public override void InputHandler()
 	{
 		Vector2 direciton = Input.GetVector("left", "right", "up", "down");
@@ -57,6 +73,10 @@ public partial class Player : Character
 			{
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
+			}
+			else if (CanPickUpCollectible())
+			{
+				currentState = State.PICKUP;
 			}
 			else if (is_last_attack_sucessful)
 			{
@@ -110,4 +130,6 @@ public partial class Player : Character
 			targetSlots[0].FreeSlotEnemy();
 		}
 	}
+
+
 }
