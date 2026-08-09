@@ -5,17 +5,22 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class Collectible : Area2D
 {
-	[Export]
-	public Sprite2D skin;
+
 	[Export]
 	public AnimationPlayer animationPlayer;
 	[Export]
-	public float speed = 25;
+	public Area2D damageEmiiter;
+	[Export]
+	public float damage;
 	public float height;
 	public float height_speed;
 
-	public Vector2 heading;
 
+	public Vector2 heading;
+	[Export]
+	public float speed = 25;
+	[Export]
+	public Sprite2D skin;
 	public Vector2 velocity;
 
 	public float GRAVITY = 600f;
@@ -45,7 +50,24 @@ public partial class Collectible : Area2D
 	public override void _Ready()
 	{
 		height_speed = KNOCK_DOWN_FROCE;
+		damageEmiiter.AreaEntered += OnDamageEmit;
+		damageEmiiter.BodyExited += OnWallExited;
+	}
 
+	private void OnWallExited(Node2D body)
+	{
+		GD.Print("bye");
+		QueueFree();
+	}
+
+	private void OnDamageEmit(Area2D area)
+	{
+		if (area is DamageReceiver damageReceiver && currentState == State.FLY)
+		{
+			damageReceiver.EmitSignal(DamageReceiver.SignalName.DamageReceived,
+			damage, heading, 2);
+			QueueFree();
+		}
 	}
 
 
@@ -56,19 +78,14 @@ public partial class Collectible : Area2D
 	public override void _Process(double delta)
 	{
 		FallHandler((float)delta);
-		if (currentState == State.FLY)
-		{
-			velocity = heading * speed;
-			Position += velocity * (float)delta;
-			if (heading.X != 0)
-			{
-				skin.FlipH = heading.X < 0;
-			}
-		}
+		Position += velocity * (float)delta;
+		skin.FlipH = velocity.X < 0;
 
 		AnimationHandler();
 		skin.Position = Vector2.Up * height;
+		damageEmiiter.Position = Vector2.Up * height;
 		Monitorable = currentState == State.GROUNDED;
+		damageEmiiter.Monitoring = currentState == State.FLY;
 	}
 
 	private void AnimationHandler()
@@ -87,6 +104,10 @@ public partial class Collectible : Area2D
 				currentState = State.GROUNDED;
 			}
 			height_speed -= GRAVITY * delta;
+		}
+		if (currentState == State.FLY)
+		{
+			velocity = heading * speed;
 		}
 	}
 }

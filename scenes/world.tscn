@@ -11,49 +11,66 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ek4p"]
 size = Vector2(7, 64)
 
-[node name="World" type="Node2D" unique_id=573228722 node_paths=PackedStringArray("camera", "player")]
+[node name="World" type="Node2D" unique_id=573228722 node_paths=PackedStringArray("camera", "remoteTransform2D", "player")]
 script = ExtResource("1_4wyf3")
 camera = NodePath("camera")
+remoteTransform2D = NodePath("RemoteTransform2D")
 player = NodePath("actors/Player")
 
 [node name="Stage" parent="." unique_id=185410150 instance=ExtResource("1_nnsk1")]
 
-[node name="camera" type="Camera2D" parent="." unique_id=1697912121]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=1118498487]
 position = Vector2(50, 32)
+remote_path = NodePath("../camera")
 
-[node name="InvisibleWalls" type="Node2D" parent="camera" unique_id=1124716342]
+[node name="InvisibleWalls" type="Node2D" parent="RemoteTransform2D" unique_id=1124716342]
 position = Vector2(-50, -32)
 
-[node name="leftWall" type="AnimatableBody2D" parent="camera/InvisibleWalls" unique_id=1727521517]
+[node name="leftWall" type="AnimatableBody2D" parent="RemoteTransform2D/InvisibleWalls" unique_id=1727521517]
 collision_layer = 18
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/leftWall" unique_id=311250871]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RemoteTransform2D/InvisibleWalls/leftWall" unique_id=311250871]
 position = Vector2(-2.5, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
 
-[node name="rightWall" type="AnimatableBody2D" parent="camera/InvisibleWalls" unique_id=235761966]
+[node name="rightWall" type="AnimatableBody2D" parent="RemoteTransform2D/InvisibleWalls" unique_id=235761966]
 position = Vector2(105, 0)
 collision_layer = 18
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/rightWall" unique_id=35427609]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RemoteTransform2D/InvisibleWalls/rightWall" unique_id=1665397045]
 position = Vector2(-2.5, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
+
+[node name="camera" type="Camera2D" parent="." unique_id=1697912121]
+position = Vector2(50, 32)
 
 [node name="actors" type="Node2D" parent="." unique_id=429231371]
 y_sort_enabled = true
 script = ExtResource("3_i7141")
 
 [node name="Player" parent="actors" unique_id=1402660317 instance=ExtResource("2_rwgxs")]
-position = Vector2(29, 46)
+position = Vector2(11, 57)
 collision_mask = 24
-KNOCK_BACK_FORCE = 15.0
+can_respawn_knife = false
+KNOCK_BACK_FORCE = 10.0
 
 [node name="Barrel" parent="actors" unique_id=519791056 instance=ExtResource("4_k0juu")]
 position = Vector2(86, 54)
 collision_layer = 16
 
 [node name="Collectible" parent="actors" unique_id=1532719865 instance=ExtResource("6_qfnet")]
-position = Vector2(66, 38)
+position = Vector2(18, 54)
 
 [node name="BasicEnemy" parent="actors" unique_id=2013915592 instance=ExtResource("5_71j4m")]
-position = Vector2(10, 44)
+position = Vector2(45, 59)
+can_respawn_knife = true
+hasKnfie = true
+max_health = 201
+speed = 0
+
+[node name="BasicEnemy2" parent="actors" unique_id=1569925306 instance=ExtResource("5_71j4m")]
+position = Vector2(83, 59)
+can_respawn_knife = true
+hasKnfie = true
+max_health = 201
+speed = 0

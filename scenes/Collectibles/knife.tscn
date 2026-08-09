@@ -106,7 +106,12 @@ _data = {
 &"RESET": SubResource("Animation_qcgnh")
 }
 
-[node name="Collectible" unique_id=1532719865 instance=ExtResource("1_kd3f5")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2ufx"]
+size = Vector2(3, 3)
+
+[node name="Collectible" unique_id=1532719865 node_paths=PackedStringArray("damageEmiiter") instance=ExtResource("1_kd3f5")]
+damageEmiiter = NodePath("DamageEmitter")
+damage = 4.0
 speed = 120.0
 
 [node name="CollisionShape2D" parent="." index="0" unique_id=638720840]
@@ -122,3 +127,10 @@ offset = Vector2(-8, -8)
 [node name="AnimationPlayer" parent="." index="2" unique_id=918392903]
 libraries/ = SubResource("AnimationLibrary_hk0so")
 autoplay = &"FALL"
+
+[node name="DamageEmitter" parent="." index="3" unique_id=1552358143]
+collision_mask = 98
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DamageEmitter" index="1" unique_id=102017080]
+shape = SubResource("RectangleShape2D_n2ufx")
+debug_color = Color(0.79718345, 0.423714, 7.70092e-07, 0.41960785)

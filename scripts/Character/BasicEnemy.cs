@@ -40,18 +40,21 @@ public partial class BasicEnemy : Character
 
 	public override void HeadingHandler()
 	{
+		if (CanMove())
+		{
+			float temp = GlobalPosition.X - player.GlobalPosition.X;
+			if (temp < 0)
+			{
+				heading = Vector2.Right;
+			}
+			else
+			{
+				heading = Vector2.Left;
+			}
+			rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
+			base.HeadingHandler();
+		}
 
-		float temp = GlobalPosition.X - player.GlobalPosition.X;
-		if (temp < 0)
-		{
-			heading = Vector2.Right;
-		}
-		else
-		{
-			heading = Vector2.Left;
-		}
-		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
-		base.HeadingHandler();
 	}
 
 	public override void PrepAttackHandler()

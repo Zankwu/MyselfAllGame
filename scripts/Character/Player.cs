@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Security.Principal;
 
@@ -34,7 +35,7 @@ public partial class Player : Character
 	{
 
 		base._Process(delta);
-		
+
 	}
 
 	public override void AnimationHandler()
@@ -60,11 +61,15 @@ public partial class Player : Character
 
 	}
 
-	
+
 	public override void InputHandler()
 	{
-		Vector2 direciton = Input.GetVector("left", "right", "up", "down");
-		Velocity = direciton * speed;
+		if (CanMove())
+		{
+			Vector2 direciton = Input.GetVector("left", "right", "up", "down");
+			Velocity = direciton * speed;
+
+		}
 
 		if (Input.IsActionJustPressed("attack") && CanPunch())
 		{
@@ -72,9 +77,6 @@ public partial class Player : Character
 			{
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
-                EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)Collectible.TYPE.KNIFE,
-				(int)Collectible.State.FLY,weaponPositon.GlobalPosition,heading
-				);
 
 			}
 			else if (CanPickUpCollectible())

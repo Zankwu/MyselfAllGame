@@ -15,14 +15,15 @@ public partial class Actors : Node2D
 		EntityManager.instance.OnCollectibleSpawn += OnCollectibleSpawn;
 	}
 
-	private void OnCollectibleSpawn(int tYPE, int state, Vector2 positon, Vector2 heading)
+	private void OnCollectibleSpawn(int tYPE, int state, Vector2 positon, Vector2 heading,float initialHeight)
 	{
 		PackedScene packedScene = collectibleMaps[(Collectible.TYPE)tYPE];
-		Collectible s = packedScene.Instantiate<Collectible>();
-		s.GlobalPosition = positon;
-		s.currentState = (Collectible.State)state;
-		s.heading = heading;
-		AddChild(s);
+		Collectible collectible = packedScene.Instantiate<Collectible>();
+		collectible.GlobalPosition = positon;
+		collectible.currentState = (Collectible.State)state;
+		collectible.heading = heading;
+		collectible.height += initialHeight;
+		AddChild(collectible);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

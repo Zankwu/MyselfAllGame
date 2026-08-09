@@ -127,6 +127,7 @@ public partial class Character : CharacterBody2D
 		knifeSprite.Position = Vector2.Up * height;
 		knifeSprite.Visible = hasKnfie;
 		chainReactionEmit.Monitoring = currentState == State.FLY;
+		damageReceiver.Monitorable = CanGetHurt();
 
 	}
 
@@ -165,15 +166,13 @@ public partial class Character : CharacterBody2D
 		{
 			damageEmitter.Scale = new Vector2(1, damageEmitter.Scale.Y);
 			skin.FlipH = false;
-			knifeSprite.FlipH = false;
-			// knifeSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
+			knifeSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
 		}
 		else if (heading == Vector2.Left)
 		{
 			damageEmitter.Scale = new Vector2(-1, damageEmitter.Scale.Y);
-			knifeSprite.FlipH = true;
 			skin.FlipH = true;
-			// knifeSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
+			knifeSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
 		}
 	}
 	public virtual void AnimationHandler()
@@ -284,7 +283,7 @@ public partial class Character : CharacterBody2D
 	{
 		return currentState == State.IDLE || currentState == State.WALK
 		|| currentState == State.TAKEOFF || currentState == State.LAND
-		// || currentState == State.JUMP
+		|| currentState == State.PREP_PUNCH
 		;
 	}
 	public bool CanPickUpCollectible()
@@ -325,6 +324,11 @@ public partial class Character : CharacterBody2D
 	{
 		currentState = State.IDLE;
 		hasKnfie = false;
+		Vector2 knifeGlobalPosition = new(weaponPositon.GlobalPosition.X,GlobalPosition.Y);
+		float knife_height = -weaponPositon.Position.Y;
+		EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)Collectible.TYPE.KNIFE,
+				(int)Collectible.State.FLY, knifeGlobalPosition, heading, knife_height
+				);
 	}
 	public void OnPickUpComplete()
 	{
