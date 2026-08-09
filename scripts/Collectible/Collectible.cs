@@ -5,7 +5,6 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class Collectible : Area2D
 {
-
 	[Export]
 	public AnimationPlayer animationPlayer;
 	[Export]
@@ -14,21 +13,16 @@ public partial class Collectible : Area2D
 	public float damage;
 	public float height;
 	public float height_speed;
-
-
 	public Vector2 heading;
 	[Export]
 	public float speed = 25;
 	[Export]
 	public Sprite2D skin;
 	public Vector2 velocity;
-
 	public float GRAVITY = 600f;
 	[Export]
 	public float KNOCK_DOWN_FROCE = 120;
-
 	public State currentState = State.FALL;
-
 	public enum State
 	{
 		FALL, GROUNDED, FLY
@@ -56,7 +50,6 @@ public partial class Collectible : Area2D
 
 	private void OnWallExited(Node2D body)
 	{
-		GD.Print("bye");
 		QueueFree();
 	}
 

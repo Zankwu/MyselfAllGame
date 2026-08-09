@@ -7,7 +7,8 @@ public partial class Character : CharacterBody2D
 	public enum State
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
-		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP
+		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
+		SHOOT
 	}
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
@@ -26,6 +27,7 @@ public partial class Character : CharacterBody2D
 		{State.PREP_PUNCH,"IDLE"},
 		{State.THROW,"THROW"},
 		{State.PICKUP,"PICKUP"},
+		{State.SHOOT,"SHOOT"},
 	};
 	[Export]
 	public AnimationPlayer animation;
@@ -58,6 +60,8 @@ public partial class Character : CharacterBody2D
 	public float height_speed = 0f;
 	[Export]
 	public bool hasKnfie = false;
+	[Export]
+	public bool hasGun = false;
 	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
 	public int HitType;
 	[Export]
@@ -66,6 +70,9 @@ public partial class Character : CharacterBody2D
 	public float JUMPFORCE = 150f;
 	[Export]
 	public Sprite2D knifeSprite;
+
+	[Export]
+	public Sprite2D gunSprite;
 	[Export]
 	public float KNOCK_BACK_FORCE = 50;
 	[Export]
@@ -126,6 +133,8 @@ public partial class Character : CharacterBody2D
 		skin.Position = Vector2.Up * height;
 		knifeSprite.Position = Vector2.Up * height;
 		knifeSprite.Visible = hasKnfie;
+		gunSprite.Visible = hasGun;
+		gunSprite.Position = Vector2.Up * height;
 		chainReactionEmit.Monitoring = currentState == State.FLY;
 		damageReceiver.Monitorable = CanGetHurt();
 
@@ -167,12 +176,14 @@ public partial class Character : CharacterBody2D
 			damageEmitter.Scale = new Vector2(1, damageEmitter.Scale.Y);
 			skin.FlipH = false;
 			knifeSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
+			gunSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
 		}
 		else if (heading == Vector2.Left)
 		{
 			damageEmitter.Scale = new Vector2(-1, damageEmitter.Scale.Y);
 			skin.FlipH = true;
 			knifeSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
+			gunSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
 		}
 	}
 	public virtual void AnimationHandler()
@@ -298,6 +309,11 @@ public partial class Character : CharacterBody2D
 		{
 			return true;
 		}
+
+		if (tempColl.currentType == Collectible.TYPE.GUN && !hasGun)
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -305,7 +321,15 @@ public partial class Character : CharacterBody2D
 	{
 		Area2D[] areas = collectibleSensor.GetOverlappingAreas().ToArray();
 		Collectible tempColl = areas[0] as Collectible;
-		hasKnfie = true;
+
+		if (tempColl.currentType == Collectible.TYPE.KNIFE)
+		{
+			hasKnfie = true;
+		}
+		if (tempColl.currentType == Collectible.TYPE.GUN)
+		{
+			hasGun = true;
+		}
 		tempColl.QueueFree();
 	}
 	public void OnActionComplete()
@@ -324,11 +348,10 @@ public partial class Character : CharacterBody2D
 	{
 		currentState = State.IDLE;
 		hasKnfie = false;
-		Vector2 knifeGlobalPosition = new(weaponPositon.GlobalPosition.X,GlobalPosition.Y);
+		Vector2 knifeGlobalPosition = new(weaponPositon.GlobalPosition.X, GlobalPosition.Y);
 		float knife_height = -weaponPositon.Position.Y;
 		EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)Collectible.TYPE.KNIFE,
-				(int)Collectible.State.FLY, knifeGlobalPosition, heading, knife_height
-				);
+				(int)Collectible.State.FLY, knifeGlobalPosition, heading, knife_height);
 	}
 	public void OnPickUpComplete()
 	{
@@ -382,10 +405,8 @@ public partial class Character : CharacterBody2D
 			{
 				currentState = State.HURT;
 				Velocity = direction * KNOCK_BACK_FORCE;
-
 			}
 		}
-
 	}
 	private void OnEnemyChainReaction(Area2D area)
 	{

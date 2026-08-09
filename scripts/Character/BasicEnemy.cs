@@ -73,7 +73,7 @@ public partial class BasicEnemy : Character
 	{
 		if (player != null && CanMove())
 		{
-			if (can_respawn_knife || hasKnfie)
+			if (can_respawn_knife || hasKnfie || hasGun)
 			{
 				AttackWithRange();
 			}
@@ -112,12 +112,18 @@ public partial class BasicEnemy : Character
 			Velocity = (clostPosition - Position).Normalized() * speed;
 		}
 
-		if (CanThrow() && hasKnfie && rayCast2D.IsColliding())
+		if (CanRangeAttack() && hasKnfie && rayCast2D.IsColliding())
 		{
 			currentState = State.THROW;
 			Time_Knife_dismiss = Time.GetTicksMsec();
 			TimeLastAttackStart_Range = Time.GetTicksMsec();
 		}
+		else
+			if (CanRangeAttack() && hasGun && rayCast2D.IsColliding())
+			{
+				currentState = State.SHOOT;
+				TimeLastAttackStart_Range = Time.GetTicksMsec();
+			}
 	}
 
 	public void AttackWithMelee()
@@ -166,7 +172,7 @@ public partial class BasicEnemy : Character
 		return base.CanPunch();
 	}
 
-	public bool CanThrow()
+	public bool CanRangeAttack()
 	{
 		if (Time.GetTicksMsec() - TimeLastAttackStart_Range < TimeLastAttackDuration_Range)
 		{

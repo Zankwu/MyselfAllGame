@@ -48,6 +48,10 @@ public partial class Player : Character
 	{
 		float horizontal = Input.GetAxis("left", "right");
 
+		if (currentState == State.GROUNDED)
+		{
+			return;
+		}
 		if (horizontal > 0)
 		{
 			heading = Vector2.Right;
@@ -64,12 +68,9 @@ public partial class Player : Character
 
 	public override void InputHandler()
 	{
-		if (CanMove())
-		{
-			Vector2 direciton = Input.GetVector("left", "right", "up", "down");
-			Velocity = direciton * speed;
 
-		}
+		Vector2 direciton = Input.GetVector("left", "right", "up", "down");
+		Velocity = direciton * speed;
 
 		if (Input.IsActionJustPressed("attack") && CanPunch())
 		{
@@ -77,7 +78,10 @@ public partial class Player : Character
 			{
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
-
+			}
+			else if(hasGun)
+			{
+				currentState = State.SHOOT;
 			}
 			else if (CanPickUpCollectible())
 			{
@@ -135,6 +139,4 @@ public partial class Player : Character
 			targetSlots[0].FreeSlotEnemy();
 		}
 	}
-
-
 }

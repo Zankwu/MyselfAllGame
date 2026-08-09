@@ -10,7 +10,7 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "collectibleSensor", "damageEmitter", "damageReceiver", "weaponPositon", "knifeSprite", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "collectibleSensor", "damageEmitter", "damageReceiver", "weaponPositon", "knifeSprite", "gunSprite", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
 animation = NodePath("animation")
 chainReactionEmit = NodePath("ChainReactionEmit")
@@ -21,6 +21,7 @@ damageEmitter = NodePath("DamageEmitter")
 damageReceiver = NodePath("DamageReceiver")
 weaponPositon = NodePath("KnfieSprite/WeponPosition")
 knifeSprite = NodePath("KnfieSprite")
+gunSprite = NodePath("GunSprite")
 skin = NodePath("skin")
 speed = 35
 stateMachine = NodePath("stateMachine")
@@ -54,6 +55,8 @@ offset_bottom = 3.0
 [node name="KnfieSprite" type="Sprite2D" parent="." unique_id=930486354]
 
 [node name="WeponPosition" type="Node2D" parent="KnfieSprite" unique_id=1529538129]
+
+[node name="GunSprite" type="Sprite2D" parent="." unique_id=2102367490]
 
 [node name="CollectibleSensor" type="Area2D" parent="." unique_id=1295150140]
 collision_layer = 0
