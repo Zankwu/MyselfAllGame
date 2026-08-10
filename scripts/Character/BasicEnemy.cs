@@ -1,12 +1,12 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 public partial class BasicEnemy : Character
 {
-	[Export]
-	public RayCast2D rayCast2D;
+
 
 	public float EDGE_SCRREN_BUFFER = 8;
 
@@ -121,7 +121,7 @@ public partial class BasicEnemy : Character
 		else
 			if (CanRangeAttack() && hasGun && rayCast2D.IsColliding())
 			{
-				currentState = State.SHOOT;
+				GunShoot();
 				TimeLastAttackStart_Range = Time.GetTicksMsec();
 			}
 	}
@@ -158,6 +158,7 @@ public partial class BasicEnemy : Character
 		}
 	}
 
+	
 	private bool IsPlayerWithInRange()
 	{
 		return (enemySlot.GlobalPosition - Position).Length() < 1;

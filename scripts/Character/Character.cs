@@ -81,6 +81,9 @@ public partial class Character : CharacterBody2D
 	public Label labelState;
 	[Export]
 	public int max_health;
+
+	[Export]
+	public RayCast2D rayCast2D;
 	[Export]
 	public Sprite2D skin;
 	[Export]
@@ -332,6 +335,26 @@ public partial class Character : CharacterBody2D
 		}
 		tempColl.QueueFree();
 	}
+	public void GunShoot()
+	{
+		currentState = State.SHOOT;
+		Velocity = Vector2.Zero;
+		Vector2 targetPoint = heading * (GlobalPosition.X + GetViewportRect().Size.X);
+		var target = rayCast2D.GetCollider();
+		if (target != null)
+		{
+			targetPoint = rayCast2D.GetCollisionPoint();
+			// 对命中目标的 DamageReceiver 发射伤害信号（不要对自己的 damageReceiver 发射，否则会打到自己）
+			DamageReceiver targetReceiver = (target as DamageReceiver)
+				?? (target as Node)?.GetNodeOrNull<DamageReceiver>("DamageReceiver");
+			targetReceiver?.EmitSignal(DamageReceiver.SignalName.DamageReceived, 8, heading, 2);
+		}
+		Vector2 gunPosition = new Vector2(weaponPositon.GlobalPosition.X, Position.Y);
+		float gun_height = -weaponPositon.Position.Y;
+		var distance = targetPoint.X - weaponPositon.GlobalPosition.X;
+		EntityManager.instance.EmitSignal(EntityManager.SignalName.SpawnShot, gunPosition, distance,gun_height);
+	}
+
 	public void OnActionComplete()
 	{
 		currentState = State.IDLE;

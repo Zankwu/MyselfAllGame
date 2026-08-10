@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://10hnmv1tidcn"]
+
+[ext_resource type="Script" uid="uid://dhqc2hvfufc50" path="res://scripts/actor/Shot.cs" id="1_508nq"]
+
+[sub_resource type="Gradient" id="Gradient_h28vx"]
+offsets = PackedFloat32Array(0, 0.018939395, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.99140304, 0.7933942, 0.48304677, 1, 0.8132399, 0.81215525, 1.1551381e-06, 1)
+
+[node name="shot" type="Line2D" unique_id=1762837787]
+width = 1.0
+gradient = SubResource("Gradient_h28vx")
+script = ExtResource("1_508nq")
+shot_across_window_duration = 200

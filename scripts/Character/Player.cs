@@ -81,7 +81,7 @@ public partial class Player : Character
 			}
 			else if(hasGun)
 			{
-				currentState = State.SHOOT;
+				GunShoot();
 			}
 			else if (CanPickUpCollectible())
 			{

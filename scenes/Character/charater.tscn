@@ -10,7 +10,7 @@
 radius = 1.0
 height = 10.0
 
-[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "collectibleSensor", "damageEmitter", "damageReceiver", "weaponPositon", "knifeSprite", "gunSprite", "skin", "stateMachine")]
+[node name="Character" type="CharacterBody2D" unique_id=1402660317 node_paths=PackedStringArray("animation", "chainReactionEmit", "collisionShape2D", "collectibleSensor", "damageEmitter", "damageReceiver", "weaponPositon", "knifeSprite", "gunSprite", "rayCast2D", "skin", "stateMachine")]
 script = ExtResource("1_22x0q")
 animation = NodePath("animation")
 chainReactionEmit = NodePath("ChainReactionEmit")
@@ -22,6 +22,7 @@ damageReceiver = NodePath("DamageReceiver")
 weaponPositon = NodePath("KnfieSprite/WeponPosition")
 knifeSprite = NodePath("KnfieSprite")
 gunSprite = NodePath("GunSprite")
+rayCast2D = NodePath("RayCast2D")
 skin = NodePath("skin")
 speed = 35
 stateMachine = NodePath("stateMachine")
@@ -64,6 +65,11 @@ collision_mask = 256
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectibleSensor" unique_id=810044164]
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=95847535]
+rotation = -1.5707964
+target_position = Vector2(0, 100)
+collision_mask = 12
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]
