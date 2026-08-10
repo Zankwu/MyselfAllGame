@@ -8,7 +8,7 @@ public partial class Character : CharacterBody2D
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
 		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
-		SHOOT
+		SHOOT, PREP_SHOOT
 	}
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
@@ -28,6 +28,8 @@ public partial class Character : CharacterBody2D
 		{State.THROW,"THROW"},
 		{State.PICKUP,"PICKUP"},
 		{State.SHOOT,"SHOOT"},
+		{State.PREP_SHOOT,"IDLE"},
+
 	};
 	[Export]
 	public AnimationPlayer animation;
@@ -339,20 +341,22 @@ public partial class Character : CharacterBody2D
 	{
 		currentState = State.SHOOT;
 		Velocity = Vector2.Zero;
-		Vector2 targetPoint = heading * (GlobalPosition.X + GetViewportRect().Size.X);
+		var targetPoint = heading * (GlobalPosition.X + GetViewportRect().Size.X);
 		var target = rayCast2D.GetCollider();
 		if (target != null)
 		{
 			targetPoint = rayCast2D.GetCollisionPoint();
-			// 对命中目标的 DamageReceiver 发射伤害信号（不要对自己的 damageReceiver 发射，否则会打到自己）
-			DamageReceiver targetReceiver = (target as DamageReceiver)
-				?? (target as Node)?.GetNodeOrNull<DamageReceiver>("DamageReceiver");
-			targetReceiver?.EmitSignal(DamageReceiver.SignalName.DamageReceived, 8, heading, 2);
+			if (target is Character character)
+			{
+				character.damageReceiver.EmitSignal(DamageReceiver.SignalName.DamageReceived, 8, heading, 2);
+			}
 		}
-		Vector2 gunPosition = new Vector2(weaponPositon.GlobalPosition.X, Position.Y);
-		float gun_height = -weaponPositon.Position.Y;
+
+		var gun_root_position = new Vector2(weaponPositon.GlobalPosition.X, Position.Y);
 		var distance = targetPoint.X - weaponPositon.GlobalPosition.X;
-		EntityManager.instance.EmitSignal(EntityManager.SignalName.SpawnShot, gunPosition, distance,gun_height);
+		var gun_height = -weaponPositon.Position.Y;
+		EntityManager.instance.EmitSignal(EntityManager.SignalName.SpawnShot,
+		gun_root_position, distance, gun_height);
 	}
 
 	public void OnActionComplete()

@@ -59,13 +59,24 @@ public partial class BasicEnemy : Character
 
 	public override void PrepAttackHandler()
 	{
-		if (currentState == State.PREP_PUNCH && Time.GetTicksMsec() - TimePrepAttackStart > TimePrepAttackDuration)
+		if (Time.GetTicksMsec() - TimePrepAttackStart > TimePrepAttackDuration)
 		{
-			currentState = State.ATTACK;
-			attack_animations = attack_animations.Shuffle().ToArray();
-			TimeLastAttackStart_Melee = Time.GetTicksMsec();
-			GD.Print(attack_animations[0]);
+			if (currentState == State.PREP_PUNCH)
+			{
+				currentState = State.ATTACK;
+				attack_animations = attack_animations.Shuffle().ToArray();
+				TimeLastAttackStart_Melee = Time.GetTicksMsec();
+				GD.Print(attack_animations[0]);
+			}
+			else if (currentState == State.PREP_SHOOT)
+			{
+				GD.Print($"射击完成{Time.GetTicksMsec()}");
+				GunShoot();
+				TimeLastAttackStart_Range = Time.GetTicksMsec();
+			}
+
 		}
+
 	}
 
 
@@ -118,12 +129,12 @@ public partial class BasicEnemy : Character
 			Time_Knife_dismiss = Time.GetTicksMsec();
 			TimeLastAttackStart_Range = Time.GetTicksMsec();
 		}
-		else
-			if (CanRangeAttack() && hasGun && rayCast2D.IsColliding())
-			{
-				GunShoot();
-				TimeLastAttackStart_Range = Time.GetTicksMsec();
-			}
+		else if (CanRangeAttack() && hasGun && rayCast2D.IsColliding())
+		{
+			GD.Print($"射击准备{Time.GetTicksMsec()}");
+			currentState = State.PREP_SHOOT;
+			TimePrepAttackStart = Time.GetTicksMsec();
+		}
 	}
 
 	public void AttackWithMelee()
@@ -158,7 +169,7 @@ public partial class BasicEnemy : Character
 		}
 	}
 
-	
+
 	private bool IsPlayerWithInRange()
 	{
 		return (enemySlot.GlobalPosition - Position).Length() < 1;

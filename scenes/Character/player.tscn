@@ -1005,7 +1005,7 @@ vframes = 10
 frame = 69
 
 [node name="WeponPosition" parent="KnfieSprite" index="0" unique_id=1529538129]
-position = Vector2(14, -14)
+position = Vector2(20, -15)
 
 [node name="GunSprite" parent="." index="11" unique_id=2102367490]
 texture = ExtResource("7_xpp3s")
@@ -1019,6 +1019,9 @@ frame = 20
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_mhu0h")
 debug_color = Color(0.70502937, 0.27083534, 1, 0.41960785)
+
+[node name="RayCast2D" parent="." index="13" unique_id=95847535]
+collision_mask = 8
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

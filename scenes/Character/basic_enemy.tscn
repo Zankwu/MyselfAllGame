@@ -336,6 +336,10 @@ tracks/3/keys = {
 "values": [8]
 }
 
+[sub_resource type="Animation" id="Animation_860fk"]
+resource_name = "PREP_SHOOT"
+length = 0.2
+
 [sub_resource type="Animation" id="Animation_4g3f2"]
 resource_name = "PUNCH"
 length = 0.2
@@ -645,6 +649,7 @@ _data = {
 &"IDLE": SubResource("Animation_2svwa"),
 &"LAND": SubResource("Animation_g5fq4"),
 &"PICKUP": SubResource("Animation_hced6"),
+&"PREP_SHOOT": SubResource("Animation_860fk"),
 &"PUNCH": SubResource("Animation_4g3f2"),
 &"PUNCH_AIT": SubResource("Animation_etspp"),
 &"RESET": SubResource("Animation_e01l2"),
@@ -666,6 +671,7 @@ size = Vector2(6, 6)
 size = Vector2(3, 3)
 
 [node name="BasicEnemy" unique_id=1402660317 instance=ExtResource("1_qmscb")]
+collision_layer = 8
 script = ExtResource("2_e01l2")
 TimeLastAttackDuration_Melee = 2000
 TimeLastAttackDuration_Range = 2000
@@ -715,7 +721,7 @@ hframes = 10
 vframes = 10
 
 [node name="WeponPosition" parent="KnfieSprite" index="0" unique_id=1529538129]
-position = Vector2(14, -14)
+position = Vector2(20, -16)
 
 [node name="GunSprite" parent="." index="10" unique_id=2102367490]
 texture = ExtResource("5_guns")
@@ -728,6 +734,9 @@ frame = 8
 [node name="CollisionShape2D" parent="CollectibleSensor" parent_id_path=PackedInt32Array(1295150140) index="0" unique_id=810044164]
 shape = SubResource("RectangleShape2D_najrd")
 debug_color = Color(0.72897094, 0.2376383, 1, 0.41960785)
+
+[node name="RayCast2D" parent="." index="12" unique_id=95847535]
+collision_mask = 4
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

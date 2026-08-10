@@ -61,6 +61,7 @@ public partial class Player : Character
 		{
 			heading = Vector2.Left;
 		}
+		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
 		base.HeadingHandler();
 
 	}
