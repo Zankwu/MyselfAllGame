@@ -8,6 +8,8 @@ public partial class Actors : Node2D
 	public Dictionary<Collectible.TYPE, PackedScene> collectibleMaps = new Dictionary<Collectible.TYPE, PackedScene>
 	{
 		{Collectible.TYPE.KNIFE,GD.Load<PackedScene>("res://scenes/Collectibles/knife.tscn")},
+		{Collectible.TYPE.GUN,GD.Load<PackedScene>("res://scenes/Collectibles/gun.tscn")},
+		{Collectible.TYPE.FOOD,GD.Load<PackedScene>("res://scenes/Collectibles/food.tscn")},
 
 	};
 
@@ -27,7 +29,8 @@ public partial class Actors : Node2D
 		
     }
 
-    private void OnCollectibleSpawn(int tYPE, int state, Vector2 positon, Vector2 heading,float initialHeight)
+    private void OnCollectibleSpawn(int tYPE, int state, Vector2 positon,
+	 Vector2 heading,float initialHeight,bool dorpCanDestoryed)
 	{
 		PackedScene packedScene = collectibleMaps[(Collectible.TYPE)tYPE];
 		Collectible collectible = packedScene.Instantiate<Collectible>();
@@ -35,7 +38,8 @@ public partial class Actors : Node2D
 		collectible.currentState = (Collectible.State)state;
 		collectible.heading = heading;
 		collectible.height += initialHeight;
-		AddChild(collectible);
+		collectible.onDropCanDestoryed = dorpCanDestoryed;
+		CallDeferred(Node.MethodName.AddChild, collectible);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

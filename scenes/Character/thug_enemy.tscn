@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://baixm3t2woxyd"]
+
+[ext_resource type="PackedScene" uid="uid://6nteqf2waunv" path="res://scenes/Character/basic_enemy.tscn" id="1_6qjbn"]
+[ext_resource type="Texture2D" uid="uid://o58ey0voitov" path="res://accetss/art/characters/enemy_thug.png" id="2_oeyl7"]
+
+[node name="ThugEnemy" unique_id=1402660317 instance=ExtResource("1_6qjbn")]
+TimeLastAttackDuration_Melee = 1500
+TimeLastAttackDuration_Range = 2300
+TimePrepAttackDuration = 600
+
+[node name="skin" parent="." index="0" unique_id=773792979]
+texture = ExtResource("2_oeyl7")
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]
+[editable path="ChainReactionEmit"]

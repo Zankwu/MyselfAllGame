@@ -10,6 +10,10 @@ public partial class Player : Character
 	[Export]
 	public EnemySlot[] enemySlots;
 
+	[Export]
+	public ulong Time_Combo_Duration;
+
+	public ulong Time_Combo_Last = Time.GetTicksMsec();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -35,10 +39,18 @@ public partial class Player : Character
 	{
 
 		base._Process(delta);
-
+		AttackComboHandler();
 	}
 
-	public override void AnimationHandler()
+    private void AttackComboHandler()
+	{
+		if (Time.GetTicksMsec() - Time_Combo_Last > Time_Combo_Duration)
+		{
+			attack_combo_index = 0;
+		}
+	}
+
+    public override void AnimationHandler()
 	{
 		base.AnimationHandler();
 	}
@@ -61,7 +73,6 @@ public partial class Player : Character
 		{
 			heading = Vector2.Left;
 		}
-		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
 		base.HeadingHandler();
 
 	}
@@ -80,9 +91,17 @@ public partial class Player : Character
 				currentState = State.THROW;
 				Time_Knife_dismiss = Time.GetTicksMsec();
 			}
-			else if(hasGun)
+			else if (hasGun)
 			{
-				GunShoot();
+				if (arrmoLeft <= 0)
+				{
+					currentState = State.THROW;
+				}
+				else
+				{
+					GunShoot();
+					arrmoLeft -= 1;
+				}
 			}
 			else if (CanPickUpCollectible())
 			{
@@ -90,9 +109,11 @@ public partial class Player : Character
 			}
 			else if (is_last_attack_sucessful)
 			{
+				Time_Combo_Last = Time.GetTicksMsec();
 				is_last_attack_sucessful = false;
 				attack_combo_index = (attack_combo_index + 1)
 				% attack_animations.Length;
+				currentState = State.ATTACK;
 			}
 			else
 			{
@@ -103,6 +124,7 @@ public partial class Player : Character
 		{
 			currentState = State.TAKEOFF;
 			height_speed = JUMPFORCE;
+			attack_combo_index = 0;
 		}
 		if (Input.IsActionJustPressed("attack") && CanJumpKick())
 		{

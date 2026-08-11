@@ -674,11 +674,11 @@ size = Vector2(3, 3)
 collision_layer = 8
 script = ExtResource("2_e01l2")
 TimeLastAttackDuration_Melee = 2000
-TimeLastAttackDuration_Range = 2000
-TimePrepAttackDuration = 500
+TimeLastAttackDuration_Range = 3000
+TimePrepAttackDuration = 750
+speed = 25
 damage = 2
 max_health = 20
-speed = 25
 
 [node name="skin" parent="." index="0" unique_id=773792979]
 texture = ExtResource("2_2svwa")

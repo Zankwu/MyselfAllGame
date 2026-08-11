@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://di2g0lxlx6bfc"]
+
+[ext_resource type="PackedScene" uid="uid://d2vsn3geabufi" path="res://scenes/Collectibles/collectible.tscn" id="1_jgicp"]
+[ext_resource type="Texture2D" uid="uid://dr17su4u17grd" path="res://accetss/art/props/gun.png" id="2_axxpl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgicp"]
+
+[sub_resource type="Animation" id="Animation_axxpl"]
+resource_name = "FALL"
+length = 0.39999999999999997
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 1.5707964, 3.1415927, 4.712389]
+}
+
+[sub_resource type="Animation" id="Animation_7gpw7"]
+resource_name = "FLY"
+length = 0.19999999999999998
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 1.5707964, 3.1415927, 4.712389]
+}
+
+[sub_resource type="Animation" id="Animation_vlaj5"]
+resource_name = "GROUNDED"
+length = 0.1
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_l6kkl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7gpw7"]
+_data = {
+&"FALL": SubResource("Animation_axxpl"),
+&"FLY": SubResource("Animation_7gpw7"),
+&"GROUNDED": SubResource("Animation_vlaj5"),
+&"RESET": SubResource("Animation_l6kkl")
+}
+
+[node name="GUN" unique_id=1532719865 instance=ExtResource("1_jgicp")]
+speed = 120.0
+currentType = 1
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=638720840]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_jgicp")
+
+[node name="skin" parent="." index="1" unique_id=1809195866]
+position = Vector2(0, -4)
+texture = ExtResource("2_axxpl")
+centered = false
+offset = Vector2(-8, -8)
+
+[node name="AnimationPlayer" parent="." index="2" unique_id=918392903]
+libraries/ = SubResource("AnimationLibrary_7gpw7")
+
+[node name="DamageEmitter" parent="." index="3" unique_id=1552358143]
+collision_mask = 96

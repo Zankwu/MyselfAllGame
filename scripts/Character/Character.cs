@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ public partial class Character : CharacterBody2D
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
 		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
-		SHOOT, PREP_SHOOT
+		SHOOT, PREP_SHOOT, RECOVER
 	}
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
@@ -29,16 +30,69 @@ public partial class Character : CharacterBody2D
 		{State.PICKUP,"PICKUP"},
 		{State.SHOOT,"SHOOT"},
 		{State.PREP_SHOOT,"IDLE"},
+		{State.RECOVER,"RECOVER"},
 
 	};
+	// ===== 移动属性 =====
+	[ExportGroup("Movement")]
 	[Export]
-	public AnimationPlayer animation;
-	public string[] attack_animations;
-	public int attack_combo_index = 0;
+	public float GRAVITY = 600f;
 	[Export]
-	public bool can_respawn;
+	public float JUMPFORCE = 150f;
+	[Export]
+	public float FLY_FORCE = 100;
+	[Export]
+	public float KNOCK_BACK_FORCE = 50;
+	[Export]
+	public float KNOCK_DOWN_FORCE = 70;
+	[Export]
+	public int speed;
+
+	public Vector2 heading = Vector2.Right;
+	public float height = 0f;
+	public float height_speed = 0f;
+
+	// ===== 武器属性 =====
+	[ExportGroup("Wepon")]
+	[Export]
+	public int damage;
+	[Export]
+	public int maxArrmo;
+	public int arrmoLeft;
+	[Export]
+	public bool hasKnfie = false;
+	[Export]
+	public bool hasGun = false;
+	[Export]
+	public Node2D weaponPositon;
+	[Export]
+	public Sprite2D knifeSprite;
+	[Export]
+	public Sprite2D gunSprite;
+	[Export]
+	public RayCast2D rayCast2D;
+	[Export]
+	public DamageEmitter damageEmitter;
 	[Export]
 	public bool can_respawn_knife = false;
+	[Export]
+	public bool dorpCanDestoryed;
+	[Export]
+	public ulong Time_Knife_Respawn_duration = 2000;
+	public ulong Time_Knife_dismiss = Time.GetTicksMsec();
+
+	public string[] attack_animations;
+	public int attack_combo_index = 0;
+	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
+	public int HitType;
+	public bool is_last_attack_sucessful;
+
+	// ===== 其他 / 通用属性 =====
+	[ExportGroup("")]
+	[Export]
+	public AnimationPlayer animation;
+	[Export]
+	public bool can_respawn;
 	[Export]
 	public DamageEmitter chainReactionEmit;
 	[Export]
@@ -48,57 +102,23 @@ public partial class Character : CharacterBody2D
 
 	[Export]
 	public Area2D collectibleSensor;
-	[Export]
-	public int damage;
-	[Export]
-	public DamageEmitter damageEmitter;
-	[Export]
-	public DamageReceiver damageReceiver;
-	[Export]
-	public float FLY_FORCE = 100;
-	public float GRAVITY = 600f;
-	public Vector2 heading = Vector2.Right;
-	public float height = 0f;
-	public float height_speed = 0f;
-	[Export]
-	public bool hasKnfie = false;
-	[Export]
-	public bool hasGun = false;
-	// 1 = NORMAL 2 = JUMPKICK 3 = POWER
-	public int HitType;
-	[Export]
-	public Node2D weaponPositon;
-	public bool is_last_attack_sucessful;
-	public float JUMPFORCE = 150f;
-	[Export]
-	public Sprite2D knifeSprite;
 
 	[Export]
-	public Sprite2D gunSprite;
-	[Export]
-	public float KNOCK_BACK_FORCE = 50;
-	[Export]
-	public float KNOCK_DOWN_FORCE = 70;
+	public DamageReceiver damageReceiver;
+
 	[Export]
 	public Label labelState;
 	[Export]
 	public int max_health;
 
 	[Export]
-	public RayCast2D rayCast2D;
-	[Export]
 	public Sprite2D skin;
-	[Export]
-	public int speed;
 	[Export]
 	public StateMachine stateMachine;
 	public ulong Time_Death_Start = Time.GetTicksMsec();
 	[Export]
 	public ulong Time_Grounded_Duration = 1000;
 	public ulong Time_Grounded_Start = Time.GetTicksMsec();
-	[Export]
-	public ulong Time_Knife_Respawn_duration = 2000;
-	public ulong Time_Knife_dismiss = Time.GetTicksMsec();
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -109,6 +129,7 @@ public partial class Character : CharacterBody2D
 		chainReactionEmit.BodyEntered += OnWallHit;
 		chainReactionEmit.AreaEntered += OnEnemyChainReaction;
 		current_health = max_health;
+		arrmoLeft = maxArrmo;
 	}
 
 
@@ -133,7 +154,7 @@ public partial class Character : CharacterBody2D
 			labelState.Text = animationMap[currentState];
 
 		}
-		damageEmitter.Monitoring = currentState == State.ATTACK || currentState == State.JUMPKICK;
+		damageEmitter.Monitoring = IsAttacking();
 		collisionShape2D.Disabled = IsCollisionShape2DEnable();
 		skin.Position = Vector2.Up * height;
 		knifeSprite.Position = Vector2.Up * height;
@@ -143,6 +164,11 @@ public partial class Character : CharacterBody2D
 		chainReactionEmit.Monitoring = currentState == State.FLY;
 		damageReceiver.Monitorable = CanGetHurt();
 
+	}
+
+	public virtual bool IsAttacking()
+	{
+		return currentState == State.ATTACK || currentState == State.JUMPKICK;
 	}
 
 	public virtual void PrepAttackHandler()
@@ -172,6 +198,7 @@ public partial class Character : CharacterBody2D
 
 	public virtual void HeadingHandler()
 	{
+		rayCast2D.Scale = heading == Vector2.Right ? new Vector2(1, 1) : new Vector2(-1, -1);
 
 	}
 	public void FlipScale()
@@ -182,6 +209,7 @@ public partial class Character : CharacterBody2D
 			skin.FlipH = false;
 			knifeSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
 			gunSprite.Scale = new Vector2(1, knifeSprite.Scale.Y);
+			// rayCast2D.Scale = new Vector2(1,rayCast2D.Scale.Y);
 		}
 		else if (heading == Vector2.Left)
 		{
@@ -189,6 +217,8 @@ public partial class Character : CharacterBody2D
 			skin.FlipH = true;
 			knifeSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
 			gunSprite.Scale = new Vector2(-1, knifeSprite.Scale.Y);
+			// rayCast2D.Scale = new Vector2(-1,rayCast2D.Scale.Y);
+
 		}
 	}
 	public virtual void AnimationHandler()
@@ -215,7 +245,6 @@ public partial class Character : CharacterBody2D
 			else
 			{
 				currentState = State.LAND;
-
 			}
 		}
 	}
@@ -295,7 +324,7 @@ public partial class Character : CharacterBody2D
 		return currentState == State.JUMP;
 	}
 
-	public bool CanGetHurt()
+	public virtual bool CanGetHurt()
 	{
 		return currentState == State.IDLE || currentState == State.WALK
 		|| currentState == State.TAKEOFF || currentState == State.LAND
@@ -304,20 +333,28 @@ public partial class Character : CharacterBody2D
 	}
 	public bool CanPickUpCollectible()
 	{
-		Area2D[] areas = collectibleSensor.GetOverlappingAreas().ToArray();
-		if (areas.Length < 1)
+		if (!hasGun && !hasKnfie && !can_respawn_knife)
 		{
-			return false;
-		}
-		Collectible tempColl = areas[0] as Collectible;
-		if (tempColl.currentType == Collectible.TYPE.KNIFE && !hasKnfie)
-		{
-			return true;
-		}
+			Area2D[] areas = collectibleSensor.GetOverlappingAreas().ToArray();
+			if (areas.Length < 1)
+			{
+				return false;
+			}
+			Collectible tempColl = areas[0] as Collectible;
+			if (tempColl.currentType == Collectible.TYPE.KNIFE && !hasKnfie)
+			{
+				return true;
+			}
 
-		if (tempColl.currentType == Collectible.TYPE.GUN && !hasGun)
-		{
-			return true;
+			if (tempColl.currentType == Collectible.TYPE.GUN && !hasGun)
+			{
+				return true;
+			}
+
+			if (tempColl.currentType == Collectible.TYPE.FOOD)
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -331,10 +368,15 @@ public partial class Character : CharacterBody2D
 		{
 			hasKnfie = true;
 		}
-		if (tempColl.currentType == Collectible.TYPE.GUN)
+		else if (tempColl.currentType == Collectible.TYPE.GUN)
 		{
 			hasGun = true;
 		}
+		else if (tempColl.currentType == Collectible.TYPE.FOOD)
+		{
+			current_health = max_health;
+		}
+
 		tempColl.QueueFree();
 	}
 	public void GunShoot()
@@ -359,7 +401,7 @@ public partial class Character : CharacterBody2D
 		gun_root_position, distance, gun_height);
 	}
 
-	public void OnActionComplete()
+	public virtual void OnActionComplete()
 	{
 		currentState = State.IDLE;
 	}
@@ -373,12 +415,22 @@ public partial class Character : CharacterBody2D
 	}
 	public void OnThrowComplete()
 	{
+		Collectible.TYPE collectibleType = Collectible.TYPE.KNIFE;
 		currentState = State.IDLE;
-		hasKnfie = false;
-		Vector2 knifeGlobalPosition = new(weaponPositon.GlobalPosition.X, GlobalPosition.Y);
-		float knife_height = -weaponPositon.Position.Y;
-		EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)Collectible.TYPE.KNIFE,
-				(int)Collectible.State.FLY, knifeGlobalPosition, heading, knife_height);
+		if (hasGun)
+		{
+			hasGun = false;
+			collectibleType = Collectible.TYPE.GUN;
+		}
+		else if (hasKnfie)
+		{
+			hasKnfie = false;
+			Time_Knife_dismiss = Time.GetTicksMsec();
+		}
+		Vector2 collectibleGlobalPosition = new(weaponPositon.GlobalPosition.X, GlobalPosition.Y);
+		float collectible_height = -weaponPositon.Position.Y;
+		EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn, (int)collectibleType,
+				(int)Collectible.State.FLY, collectibleGlobalPosition, heading, collectible_height, dorpCanDestoryed);
 	}
 	public void OnPickUpComplete()
 	{
@@ -386,7 +438,7 @@ public partial class Character : CharacterBody2D
 		PickUpCollectible();
 	}
 
-	public void OnDamageEmit(Area2D area)
+	public virtual void OnDamageEmit(Area2D area)
 	{
 		is_last_attack_sucessful = true;
 		int damage_temp = damage;
@@ -411,9 +463,24 @@ public partial class Character : CharacterBody2D
 	{
 		if (CanGetHurt())
 		{
-			hasKnfie = false;
-			can_respawn_knife = false;
-			Time_Knife_dismiss = Time.GetTicksMsec();
+			attack_combo_index = 0;
+			if (hasGun)
+			{
+				hasGun = false;
+				Time_Knife_dismiss = Time.GetTicksMsec();
+				can_respawn_knife = false;
+				EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn,
+					(int)Collectible.TYPE.GUN, (int)Collectible.State.FALL, GlobalPosition,
+					Vector2.Zero, 0, dorpCanDestoryed);
+			}
+			if (hasKnfie)
+			{
+				hasKnfie = false;
+				Time_Knife_dismiss = Time.GetTicksMsec();
+				EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn,
+					(int)Collectible.TYPE.KNIFE, (int)Collectible.State.FALL, GlobalPosition,
+					Vector2.Zero, 0, dorpCanDestoryed);
+			}
 			current_health = Mathf.Clamp(current_health - damage, 0, max_health);
 
 			if (HitType == 2 || current_health <= 0)

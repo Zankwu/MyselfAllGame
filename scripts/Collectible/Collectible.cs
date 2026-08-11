@@ -5,10 +5,14 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class Collectible : Area2D
 {
+
 	[Export]
 	public AnimationPlayer animationPlayer;
 	[Export]
+	public bool atuoDestoryed;
+	[Export]
 	public Area2D damageEmiiter;
+	public bool onDropCanDestoryed;
 	[Export]
 	public float damage;
 	public float height;
@@ -21,7 +25,7 @@ public partial class Collectible : Area2D
 	public Vector2 velocity;
 	public float GRAVITY = 600f;
 	[Export]
-	public float KNOCK_DOWN_FROCE = 120;
+	public float KNOCK_DOWN_FROCE = 200;
 	public State currentState = State.FALL;
 	public enum State
 	{
@@ -79,6 +83,7 @@ public partial class Collectible : Area2D
 		damageEmiiter.Position = Vector2.Up * height;
 		Monitorable = currentState == State.GROUNDED;
 		damageEmiiter.Monitoring = currentState == State.FLY;
+
 	}
 
 	private void AnimationHandler()
@@ -91,10 +96,20 @@ public partial class Collectible : Area2D
 		if (currentState == State.FALL)
 		{
 			height += height_speed * delta;
+			if (onDropCanDestoryed)
+			{
+				Color color = Modulate;
+				color.A -= delta;
+				Modulate = color;
+			}
 			if (height < 0)
 			{
 				height = 0;
 				currentState = State.GROUNDED;
+				if (onDropCanDestoryed)
+				{
+					QueueFree();
+				}
 			}
 			height_speed -= GRAVITY * delta;
 		}

@@ -1,0 +1,209 @@
+[gd_scene format=3 uid="uid://d06ek5iqn6458"]
+
+[ext_resource type="PackedScene" uid="uid://b8p71nnfbfcy5" path="res://scenes/Character/charater.tscn" id="1_ivpve"]
+[ext_resource type="Script" uid="uid://0fginl8n7tfu" path="res://scripts/Character/IgroBoss.cs" id="2_1cr4p"]
+[ext_resource type="Texture2D" uid="uid://ck756b887y8qw" path="res://accetss/art/characters/enemy_boss.png" id="2_a6rdm"]
+
+[sub_resource type="Animation" id="Animation_fall00"]
+resource_name = "FALL"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [60]
+}
+
+[sub_resource type="Animation" id="Animation_fly000"]
+resource_name = "FLY"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [43]
+}
+
+[sub_resource type="Animation" id="Animation_groun0"]
+resource_name = "GROUNDED"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [62]
+}
+
+[sub_resource type="Animation" id="Animation_hurt00"]
+resource_name = "HURT"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [50, 51]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnActionComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_idle00"]
+resource_name = "IDLE"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [90]
+}
+
+[sub_resource type="Animation" id="Animation_revov0"]
+resource_name = "RECOVER"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [70]
+}
+
+[sub_resource type="Animation" id="Animation_walk00"]
+resource_name = "WALK"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [90, 91, 92, 93, 94, 95, 96, 97]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_igro"]
+_data = {
+&"FALL": SubResource("Animation_fall00"),
+&"FLY": SubResource("Animation_fly000"),
+&"GROUNDED": SubResource("Animation_groun0"),
+&"HURT": SubResource("Animation_hurt00"),
+&"IDLE": SubResource("Animation_idle00"),
+&"RECOVER": SubResource("Animation_revov0"),
+&"WALK": SubResource("Animation_walk00")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1cr4p"]
+size = Vector2(3, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vmy3m"]
+size = Vector2(9, 10.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vh2n8"]
+size = Vector2(6, 6)
+
+[node name="IgroBoss" unique_id=1402660317 instance=ExtResource("1_ivpve")]
+collision_layer = 8
+script = ExtResource("2_1cr4p")
+Boss_Player_Dest_Distance = 30.0
+Time_Bettwen_Attacks_duration = 2000
+Time_Recover_duration = 2000
+KNOCK_BACK_FORCE = 10.0
+
+[node name="skin" parent="." index="0" unique_id=773792979]
+texture = ExtResource("2_a6rdm")
+centered = false
+offset = Vector2(-24, -48)
+hframes = 10
+vframes = 10
+frame = 50
+
+[node name="animation" parent="." index="3" unique_id=601317421]
+libraries/ = SubResource("AnimationLibrary_igro")
+autoplay = &"IDLE"
+
+[node name="DamageEmitter" parent="." index="6" unique_id=1552358143]
+collision_mask = 32
+
+[node name="CollisionShape2D" parent="DamageEmitter" index="0" unique_id=460634414]
+position = Vector2(9, -9)
+shape = SubResource("RectangleShape2D_1cr4p")
+
+[node name="DamageReceiver" parent="." index="7" unique_id=429159862]
+collision_layer = 64
+
+[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=1539579637]
+position = Vector2(1, -18)
+shape = SubResource("RectangleShape2D_vmy3m")
+
+[node name="ChainReactionEmit" parent="." index="8" unique_id=1641432407]
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="ChainReactionEmit" index="0" unique_id=460634414]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_vh2n8")
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]
+[editable path="ChainReactionEmit"]

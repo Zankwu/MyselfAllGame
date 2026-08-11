@@ -6,9 +6,10 @@ public partial class World : Node2D
 
 	[Export]
 	public Camera2D camera;
-
 	[Export]
-	public RemoteTransform2D remoteTransform2D;
+	public AnimatableBody2D leftWall;
+	[Export]
+	public AnimatableBody2D rightWall;
 	[Export]
 	public Player player;
 	// Called when the node enters the scene tree for the first time.
@@ -25,10 +26,10 @@ public partial class World : Node2D
 
 	public void CameraHandler()
 	{
-		if (remoteTransform2D.Position.X < player.Position.X)
+		if (camera.Position.X < player.Position.X)
 		{
-			remoteTransform2D.Position = new Vector2(player.Position.X, remoteTransform2D.Position.Y);
-
+			camera.Position = new Vector2(player.Position.X, camera.Position.Y);
+			rightWall.Position = new Vector2(camera.Position.X + (GetViewportRect().Size.X/2),rightWall.GlobalPosition.Y);
 		}
 
 	}

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dj4u4rxxlcsmf"]
+
+[ext_resource type="PackedScene" uid="uid://6nteqf2waunv" path="res://scenes/Character/basic_enemy.tscn" id="1_ayaxv"]
+[ext_resource type="Texture2D" uid="uid://cjlullb74g6ng" path="res://accetss/art/characters/enemy_goon.png" id="2_7t0tk"]
+
+[node name="Goon" unique_id=1402660317 instance=ExtResource("1_ayaxv")]
+TimeLastAttackDuration_Melee = 3000
+TimeLastAttackDuration_Range = 2500
+max_health = 16
+
+[node name="skin" parent="." index="0" unique_id=773792979]
+texture = ExtResource("2_7t0tk")
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]
+[editable path="ChainReactionEmit"]

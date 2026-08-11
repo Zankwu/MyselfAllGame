@@ -935,7 +935,9 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource("2_4mqus")
 enemySlots = [NodePath("EnemySlots/EnemySlot"), NodePath("EnemySlots/EnemySlot2"), NodePath("EnemySlots/EnemySlot3"), NodePath("EnemySlots/EnemySlot4")]
+Time_Combo_Duration = 2000
 hasGun = true
+dorpCanDestoryed = true
 labelState = NodePath("Panel/Label")
 max_health = 30
 

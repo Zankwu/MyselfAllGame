@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Barrel : StaticBody2D
 {
@@ -25,6 +24,9 @@ public partial class Barrel : StaticBody2D
 
 	public State currentState = State.idle;
 
+	[Export]
+	public Collectible.TYPE insideType = Collectible.TYPE.FOOD;
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -42,13 +44,17 @@ public partial class Barrel : StaticBody2D
 		AirTimeHandler((float)delta);
 	}
 
-	private void OnDamageReceiver(int damage, Vector2 direction,int HitType)
+	private void OnDamageReceiver(int damage, Vector2 direction, int HitType)
 	{
 		if (currentState == State.idle)
 		{
 			currentState = State.destoryed;
 			velocity = direction * KNOCK_FORCE;
 			height_speed = KNOCK_FORCE * 2;
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.OnCollectibleSpawn,
+				(int)insideType, (int)Collectible.State.FALL,
+				GlobalPosition, Vector2.Zero, 0,false
+			);
 		}
 
 	}
