@@ -676,6 +676,7 @@ script = ExtResource("2_e01l2")
 TimeLastAttackDuration_Melee = 2000
 TimeLastAttackDuration_Range = 3000
 TimePrepAttackDuration = 750
+tYPE = 1
 speed = 25
 damage = 2
 max_health = 20

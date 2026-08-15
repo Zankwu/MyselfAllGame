@@ -7,6 +7,7 @@
 TimeLastAttackDuration_Melee = 1500
 TimeLastAttackDuration_Range = 2300
 TimePrepAttackDuration = 600
+tYPE = 3
 
 [node name="skin" parent="." index="0" unique_id=773792979]
 texture = ExtResource("2_oeyl7")

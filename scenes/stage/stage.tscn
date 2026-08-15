@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://0tummoeogclm"]
 
-[ext_resource type="Texture2D" uid="uid://bvookqfd2anbr" path="res://accetss/art/backgrounds/bar-background.png" id="1_ecxui"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecxui"]
 size = Vector2(608, 32)
 
@@ -9,8 +7,7 @@ size = Vector2(608, 32)
 
 [node name="BackGround" type="Node2D" parent="." unique_id=29548157]
 
-[node name="Sprite2D" type="Sprite2D" parent="BackGround" unique_id=1571943004]
-texture = ExtResource("1_ecxui")
+[node name="MainBackGround" type="Sprite2D" parent="BackGround" unique_id=1571943004]
 centered = false
 
 [node name="WorldWide" type="Node2D" parent="." unique_id=1900947055]
@@ -31,3 +28,5 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldWide/BottomWorldWide" unique_id=377853080]
 position = Vector2(304, 16)
 shape = SubResource("RectangleShape2D_ecxui")
+
+[node name="CheckPoints" type="Node2D" parent="." unique_id=1510666777]

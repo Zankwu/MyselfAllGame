@@ -12,8 +12,7 @@ public partial class BasicEnemy : Character
 
 
 	public EnemySlot enemySlot;
-	[Export]
-	public Player player;
+
 
 	[Export]
 	public ulong TimeLastAttackDuration_Melee = 2000;
@@ -33,14 +32,13 @@ public partial class BasicEnemy : Character
 	public override void _Ready()
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT"];
-		player = GetNode<Player>("../Player");
 		base._Ready();
 	}
 
 
 	public override void HeadingHandler()
 	{
-		if (CanMove())
+		if (CanMove() )
 		{
 			float temp = GlobalPosition.X - player.GlobalPosition.X;
 			if (temp < 0)
@@ -199,6 +197,7 @@ public partial class BasicEnemy : Character
 		if (current_health <= 0)
 		{
 			enemySlot.FreeSlotEnemy();
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.OnEnemyDeath,this);
 		}
 	}
 

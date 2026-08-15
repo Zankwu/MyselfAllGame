@@ -9,6 +9,12 @@ public partial class EntityManager : Node
 
     [Signal]
     public delegate void SpawnShotEventHandler(Vector2 gun_root_position,float distance,float height);
+    
+    [Signal]
+    public delegate void OnSpawnEnemyEventHandler(EnemyData enemyData);
+
+    [Signal]
+    public delegate void OnEnemyDeathEventHandler(BasicEnemy enemy);
     public static EntityManager instance;
 
     public override void _Ready()

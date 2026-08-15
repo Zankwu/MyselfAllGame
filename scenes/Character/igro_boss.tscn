@@ -169,6 +169,7 @@ script = ExtResource("2_1cr4p")
 Boss_Player_Dest_Distance = 30.0
 Time_Bettwen_Attacks_duration = 2000
 Time_Recover_duration = 2000
+tYPE = 4
 KNOCK_BACK_FORCE = 10.0
 
 [node name="skin" parent="." index="0" unique_id=773792979]

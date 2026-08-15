@@ -932,7 +932,7 @@ size = Vector2(3, 3)
 
 [node name="Player" unique_id=1402660317 node_paths=PackedStringArray("enemySlots", "labelState") instance=ExtResource("1_hs0k7")]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 26
 script = ExtResource("2_4mqus")
 enemySlots = [NodePath("EnemySlots/EnemySlot"), NodePath("EnemySlots/EnemySlot2"), NodePath("EnemySlots/EnemySlot3"), NodePath("EnemySlots/EnemySlot4")]
 Time_Combo_Duration = 2000

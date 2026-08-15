@@ -12,8 +12,7 @@ public partial class IgroBoss : Character
 	public ulong Time_Recover_duration = 2000;
 	public ulong Time_Recover_start = Time.GetTicksMsec();
 	public ulong Time_Bettwen_Attacks_Last = Time.GetTicksMsec();
-	[Export]
-	public Player player;
+
 
 	public Vector2 KNOCKBACK_FORCE;
 
@@ -27,6 +26,7 @@ public partial class IgroBoss : Character
 
 	public Vector2 GetTargetDistance()
 	{
+		//BOSS目标点，距离玩家位置30px
 		Vector2 target = Vector2.Zero;
 		if (player.Position.X > Position.X)
 		{
@@ -40,6 +40,7 @@ public partial class IgroBoss : Character
 	}
 	public bool IsPlayerInRange()
 	{
+		//BOSS是否到达了，目标距离位置
 		return (Position - GetTargetDistance()).Length() < 1;
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -53,6 +54,7 @@ public partial class IgroBoss : Character
 	}
 	public override void GroundedHandler()
 	{
+		//BOSS受伤逻辑，只有在RECOVER的状态下才能受伤，此状态会存在2秒
 		if (currentState == State.GROUNDED)
 		{
 			if (current_health > 0)
@@ -60,8 +62,12 @@ public partial class IgroBoss : Character
 				currentState = State.RECOVER;
 				Time_Recover_start = Time.GetTicksMsec();
 
-			}else{
+			}
+			else
+			{
 				currentState = State.DEATH;
+				EntityManager.instance.EmitSignal(EntityManager.SignalName.OnEnemyDeath, this);
+
 			}
 		}
 		else if (currentState == State.RECOVER)

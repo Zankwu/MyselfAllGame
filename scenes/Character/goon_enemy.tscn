@@ -6,6 +6,7 @@
 [node name="Goon" unique_id=1402660317 instance=ExtResource("1_ayaxv")]
 TimeLastAttackDuration_Melee = 3000
 TimeLastAttackDuration_Range = 2500
+tYPE = 2
 max_health = 16
 
 [node name="skin" parent="." index="0" unique_id=773792979]

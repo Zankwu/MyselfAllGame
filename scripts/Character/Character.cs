@@ -11,6 +11,13 @@ public partial class Character : CharacterBody2D
 		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
 		SHOOT, PREP_SHOOT, RECOVER
 	}
+
+	public enum CharacterType
+	{
+		Player, Basic, Goon, Thug, Boss
+	}
+	[Export]
+	public CharacterType tYPE;
 	public Dictionary<State, string> animationMap = new Dictionary<State, string>()
 	{
 		{State.IDLE,"IDLE"},
@@ -115,6 +122,8 @@ public partial class Character : CharacterBody2D
 	public Sprite2D skin;
 	[Export]
 	public StateMachine stateMachine;
+	[Export]
+	public Player player;
 	public ulong Time_Death_Start = Time.GetTicksMsec();
 	[Export]
 	public ulong Time_Grounded_Duration = 1000;
@@ -193,7 +202,6 @@ public partial class Character : CharacterBody2D
 				QueueFree();
 			}
 		}
-
 	}
 
 	public virtual void HeadingHandler()

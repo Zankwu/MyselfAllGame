@@ -42,7 +42,7 @@ public partial class Player : Character
 		AttackComboHandler();
 	}
 
-    private void AttackComboHandler()
+	private void AttackComboHandler()
 	{
 		if (Time.GetTicksMsec() - Time_Combo_Last > Time_Combo_Duration)
 		{
@@ -50,7 +50,7 @@ public partial class Player : Character
 		}
 	}
 
-    public override void AnimationHandler()
+	public override void AnimationHandler()
 	{
 		base.AnimationHandler();
 	}
