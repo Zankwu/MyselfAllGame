@@ -5,16 +5,24 @@ public partial class EntityManager : Node
 {
     [Signal]
     public delegate void OnCollectibleSpawnEventHandler(int tYPE, int state,
-     Vector2 positon, Vector2 heading,float height,bool dorpCanDestoryed);
+     Vector2 positon, Vector2 heading, float height, bool dorpCanDestoryed);
 
     [Signal]
-    public delegate void SpawnShotEventHandler(Vector2 gun_root_position,float distance,float height);
-    
+    public delegate void SpawnShotEventHandler(Vector2 gun_root_position, float distance, float height);
+
     [Signal]
     public delegate void OnSpawnEnemyEventHandler(EnemyData enemyData);
 
     [Signal]
     public delegate void OnEnemyDeathEventHandler(BasicEnemy enemy);
+
+    [Signal]
+    public delegate void CheckPointStartEventHandler();
+    [Signal]
+
+    public delegate void CheckPointEndEventHandler();
+    [Signal]
+    public delegate void OrphanActorEventHandler(Node2D node2D);
     public static EntityManager instance;
 
     public override void _Ready()

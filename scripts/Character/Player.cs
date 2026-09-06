@@ -19,10 +19,7 @@ public partial class Player : Character
 	public override void _Ready()
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT", "KICK", "ROUND_KICK"];
-
 		base._Ready();
-
-
 	}
 
 	private void OnCollectibleEntered(Node2D body)

@@ -12,6 +12,8 @@ height = 14.0
 size = Vector2(10, 10)
 
 [node name="Barrel" type="StaticBody2D" unique_id=519791056 node_paths=PackedStringArray("skin", "damageReceiver")]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("1_t1jd6")
 skin = NodePath("skin")
 damageReceiver = NodePath("DamageReceiver")

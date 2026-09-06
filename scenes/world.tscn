@@ -8,9 +8,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ek4p"]
 size = Vector2(7, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0juu"]
-size = Vector2(20, 63)
-
 [node name="World" type="Node2D" unique_id=573228722 node_paths=PackedStringArray("camera", "player")]
 script = ExtResource("1_4wyf3")
 camera = NodePath("camera")
@@ -21,24 +18,32 @@ player = NodePath("actors/Player")
 [node name="camera" type="Camera2D" parent="." unique_id=1697912121]
 position = Vector2(50, 32)
 
-[node name="InvisibleWalls" type="Node2D" parent="camera" unique_id=1124716342]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="camera" unique_id=1114645185]
 position = Vector2(-50, -32)
+remote_path = NodePath("../../InvisibleWalls/leftWall")
 
-[node name="leftWall" type="AnimatableBody2D" parent="camera/InvisibleWalls" unique_id=1727521517]
+[node name="RemoteTransform2D2" type="RemoteTransform2D" parent="camera" unique_id=1741282210]
+position = Vector2(-25, -31)
+remote_path = NodePath("../../InvisibleWalls/leftWall2")
+
+[node name="InvisibleWalls" type="Node2D" parent="." unique_id=1124716342]
+
+[node name="leftWall" type="AnimatableBody2D" parent="InvisibleWalls" unique_id=1727521517]
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/leftWall" unique_id=311250871]
-position = Vector2(-1, 32)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibleWalls/leftWall" unique_id=311250871]
+position = Vector2(-2, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="camera/InvisibleWalls" unique_id=128475857]
+[node name="leftWall2" type="AnimatableBody2D" parent="InvisibleWalls" unique_id=212274014]
+position = Vector2(25, 1)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="camera/InvisibleWalls/StaticBody2D" unique_id=1981857630]
-position = Vector2(72, 32)
-shape = SubResource("RectangleShape2D_k0juu")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvisibleWalls/leftWall2" unique_id=682474755]
+position = Vector2(77, 32)
+shape = SubResource("RectangleShape2D_7ek4p")
 
 [node name="actors" type="Node2D" parent="." unique_id=429231371 node_paths=PackedStringArray("player")]
 y_sort_enabled = true
@@ -48,4 +53,4 @@ player = NodePath("Player")
 [node name="Player" parent="actors" unique_id=770339625 instance=ExtResource("2_rwgxs")]
 position = Vector2(33, 55)
 KNOCK_BACK_FORCE = 10.0
-speed = 55
+speed = 76

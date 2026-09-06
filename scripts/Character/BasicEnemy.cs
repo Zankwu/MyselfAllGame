@@ -10,7 +10,7 @@ public partial class BasicEnemy : Character
 
 	public float EDGE_SCRREN_BUFFER = 8;
 
-
+	public int assigin_door_index = -1;
 	public EnemySlot enemySlot;
 
 
@@ -38,7 +38,7 @@ public partial class BasicEnemy : Character
 
 	public override void HeadingHandler()
 	{
-		if (CanMove() )
+		if (CanMove() && player != null)
 		{
 			float temp = GlobalPosition.X - player.GlobalPosition.X;
 			if (temp < 0)
@@ -77,6 +77,15 @@ public partial class BasicEnemy : Character
 
 	}
 
+	public void Assign_Door(Door door)
+	{
+		if (door.currentState == Door.State.CLOSED)
+		{
+			currentState = State.WAIT;
+			door.Open();
+			door.Opened+= OnActionComplete;
+		}
+	}
 
 	public override void InputHandler()
 	{

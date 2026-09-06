@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class Actors : Node2D
 {
@@ -22,11 +24,25 @@ public partial class Actors : Node2D
 		{Character.CharacterType.Boss,GD.Load<PackedScene>("res://scenes/Character/igro_boss.tscn")},
 	};
 	// Called when the node enters the scene tree for the first time.
+	
+	public Door[] doors = [];
 	public override void _Ready()
 	{
 		EntityManager.instance.OnCollectibleSpawn += OnCollectibleSpawn;
 		EntityManager.instance.SpawnShot += OnSpawnShot;
 		EntityManager.instance.OnSpawnEnemy += OnSpawnEnemy;
+		EntityManager.instance.OrphanActor += OrphanActorReparents;
+
+	}
+
+	private void OrphanActorReparents(Node2D orphan)
+	{
+		GD.Print("receive");
+		if (orphan is Door)
+		{
+			doors.Append(orphan);
+		}
+		orphan.Reparent(this);
 	}
 
 	private void OnSpawnShot(Vector2 gun_root_position, float distance, float height)
@@ -53,10 +69,16 @@ public partial class Actors : Node2D
 	private void OnSpawnEnemy(EnemyData enemyData)
 	{
 		PackedScene scene = characterMaps[enemyData.character_type];
-		Character tempChar = scene.Instantiate() as Character;
+		BasicEnemy tempChar = scene.Instantiate() as BasicEnemy;
 		tempChar.tYPE = enemyData.character_type;
 		tempChar.GlobalPosition = enemyData.global_position;
 		tempChar.player = player;
+		tempChar.height = enemyData.height;
+		tempChar.currentState = enemyData.currentState;
+		if (enemyData.Door_Index > -1)
+		{
+			tempChar.Assign_Door(doors[enemyData.Door_Index]);
+		}
 		AddChild(tempChar);
 
 	}

@@ -22,10 +22,16 @@ public partial class CheckPoint : Node
 	{
 		playerDetectionArea.BodyEntered += OnPlayerEntered;
 		EntityManager.instance.OnEnemyDeath += OnEnemyDeath;
+		// CreateEnemyData();
+	}
+
+	public void CreateEnemyData()
+	{
 		foreach (Node2D child in enemies.GetChildren())
 		{
-			Character temp1 = child as Character;
-			enemyDatasTemp.Add(new EnemyData(temp1.tYPE, temp1.GlobalPosition));
+			BasicEnemy temp1 = child as BasicEnemy;
+			enemyDatasTemp.Add(new EnemyData(temp1.tYPE, temp1.GlobalPosition, temp1.assigin_door_index));
+			GD.Print(temp1.assigin_door_index);
 			temp1.QueueFree();
 		}
 	}
@@ -40,6 +46,7 @@ public partial class CheckPoint : Node
 		if (!is_activited)
 		{
 			is_activited = true;
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.CheckPointStart);
 			GD.Print(enemyDatasTemp.Count);
 		}
 	}
@@ -56,6 +63,12 @@ public partial class CheckPoint : Node
 				alive_enemies += 1;
 				enemyDatasTemp.RemoveAt(0);
 			}
+
+		}
+		if (alive_enemies <= 0)
+		{
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.CheckPointEnd);
+			
 		}
 	}
 }

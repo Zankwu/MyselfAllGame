@@ -9,7 +9,7 @@ public partial class Character : CharacterBody2D
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
 		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
-		SHOOT, PREP_SHOOT, RECOVER
+		SHOOT, PREP_SHOOT, RECOVER, DROP,WAIT
 	}
 
 	public enum CharacterType
@@ -38,6 +38,8 @@ public partial class Character : CharacterBody2D
 		{State.SHOOT,"SHOOT"},
 		{State.PREP_SHOOT,"IDLE"},
 		{State.RECOVER,"RECOVER"},
+		{State.DROP,"IDLE"},
+		{State.WAIT,"IDLE"},
 
 	};
 	// ===== 移动属性 =====
@@ -139,6 +141,7 @@ public partial class Character : CharacterBody2D
 		chainReactionEmit.AreaEntered += OnEnemyChainReaction;
 		current_health = max_health;
 		arrmoLeft = maxArrmo;
+		PositionHandler();
 	}
 
 
@@ -165,14 +168,20 @@ public partial class Character : CharacterBody2D
 		}
 		damageEmitter.Monitoring = IsAttacking();
 		collisionShape2D.Disabled = IsCollisionShape2DEnable();
-		skin.Position = Vector2.Up * height;
-		knifeSprite.Position = Vector2.Up * height;
+		PositionHandler();
+
 		knifeSprite.Visible = hasKnfie;
 		gunSprite.Visible = hasGun;
-		gunSprite.Position = Vector2.Up * height;
 		chainReactionEmit.Monitoring = currentState == State.FLY;
 		damageReceiver.Monitorable = CanGetHurt();
 
+	}
+
+	private void PositionHandler()
+	{
+		skin.Position = Vector2.Up * height;
+		knifeSprite.Position = Vector2.Up * height;
+		gunSprite.Position = Vector2.Up * height;
 	}
 
 	public virtual bool IsAttacking()
@@ -258,7 +267,8 @@ public partial class Character : CharacterBody2D
 	}
 	public virtual void AirTimeHandler(float delta)
 	{
-		if (currentState == State.JUMP || currentState == State.JUMPKICK || currentState == State.FALL)
+		if (currentState == State.JUMP || currentState == State.JUMPKICK || currentState == State.FALL
+		|| currentState == State.DROP)
 		{
 			height += height_speed * delta;
 
@@ -297,7 +307,7 @@ public partial class Character : CharacterBody2D
 				currentState = State.WALK;
 			}
 		}
-		else if (currentState == State.ATTACK)
+		else if (currentState == State.ATTACK || currentState == State.SHOOT)
 		{
 			Velocity = Vector2.Zero;
 		}
@@ -390,7 +400,7 @@ public partial class Character : CharacterBody2D
 	public void GunShoot()
 	{
 		currentState = State.SHOOT;
-		Velocity = Vector2.Zero;
+		// Velocity = Vector2.Zero;
 		var targetPoint = heading * (GlobalPosition.X + GetViewportRect().Size.X);
 		var target = rayCast2D.GetCollider();
 		if (target != null)

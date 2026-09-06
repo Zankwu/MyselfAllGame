@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://0tummoeogclm"]
 
+[ext_resource type="Script" uid="uid://c05826fhf16cj" path="res://scripts/State/Stage.cs" id="1_ecxui"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecxui"]
 size = Vector2(608, 32)
 
-[node name="Stage" type="Node2D" unique_id=185410150]
+[node name="Stage" type="Node2D" unique_id=185410150 node_paths=PackedStringArray("containers", "Doors")]
+script = ExtResource("1_ecxui")
+containers = NodePath("Containers")
+Doors = NodePath("Doors")
 
 [node name="BackGround" type="Node2D" parent="." unique_id=29548157]
 
@@ -30,3 +35,7 @@ position = Vector2(304, 16)
 shape = SubResource("RectangleShape2D_ecxui")
 
 [node name="CheckPoints" type="Node2D" parent="." unique_id=1510666777]
+
+[node name="Containers" type="Node2D" parent="." unique_id=1342166426]
+
+[node name="Doors" type="Node2D" parent="." unique_id=718268054]
