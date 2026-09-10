@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://b5osdy3jxribx"]
+
+[node name="ScoreIndicator" type="Label" unique_id=1037164609]
+offset_right = 40.0
+offset_bottom = 23.0

@@ -9,7 +9,7 @@ public partial class Character : CharacterBody2D
 	{
 		IDLE, WALK, ATTACK, TAKEOFF, JUMP, LAND, JUMPKICK,
 		HURT, FALL, GROUNDED, DEATH, FLY, PREP_PUNCH, THROW, PICKUP,
-		SHOOT, PREP_SHOOT, RECOVER, DROP,WAIT
+		SHOOT, PREP_SHOOT, RECOVER, DROP, WAIT
 	}
 
 	public enum CharacterType
@@ -139,7 +139,15 @@ public partial class Character : CharacterBody2D
 		damageReceiver.DamageReceived += OnDamageReceiver;
 		chainReactionEmit.BodyEntered += OnWallHit;
 		chainReactionEmit.AreaEntered += OnEnemyChainReaction;
-		current_health = max_health;
+		if (tYPE is CharacterType.Player)
+		{
+			SetHealthBar(max_health, true);
+
+		}
+		else
+		{
+			SetHealthBar(max_health, false);
+		}
 		arrmoLeft = maxArrmo;
 		PositionHandler();
 	}
@@ -392,7 +400,7 @@ public partial class Character : CharacterBody2D
 		}
 		else if (tempColl.currentType == Collectible.TYPE.FOOD)
 		{
-			current_health = max_health;
+			SetHealthBar(max_health, true);
 		}
 
 		tempColl.QueueFree();
@@ -499,7 +507,7 @@ public partial class Character : CharacterBody2D
 					(int)Collectible.TYPE.KNIFE, (int)Collectible.State.FALL, GlobalPosition,
 					Vector2.Zero, 0, dorpCanDestoryed);
 			}
-			current_health = Mathf.Clamp(current_health - damage, 0, max_health);
+			SetHealthBar(current_health - damage, true);
 
 			if (HitType == 2 || current_health <= 0)
 			{
@@ -540,5 +548,15 @@ public partial class Character : CharacterBody2D
 			height_speed = KNOCK_DOWN_FORCE;
 			Velocity = -Velocity / 2;
 		}
+	}
+
+	public void SetHealthBar(int chealth, bool isShow)
+	{
+		current_health = Mathf.Clamp(chealth, 0, max_health);
+		if (isShow)
+		{
+			DamageManager.instance.EmitSignal(DamageManager.SignalName.HealthBarChange, (int)tYPE, max_health, current_health);
+		}
+
 	}
 }

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 PreState="uid://cmaldh8idddsg"
 EntityManager="*uid://cy02rgw2jld7c"
+DamageManager="*uid://dk06heptq6ngc"
 
 [display]
 

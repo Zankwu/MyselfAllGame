@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://njfua8kxxfke"]
+
+[ext_resource type="Script" uid="uid://b2dnyg7ju1f00" path="res://scripts/UI/HelathBar.cs" id="1_adsat"]
+[ext_resource type="Texture2D" uid="uid://bpna5evcecbsr" path="res://accetss/art/ui/healthbar-tick.png" id="1_jtv14"]
+
+[node name="HelathBar" type="Control" unique_id=56244255 node_paths=PackedStringArray("whiteBorder", "redBorder", "healthRect")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_adsat")
+whiteBorder = NodePath("WhiteBorder")
+redBorder = NodePath("RedBorder")
+healthRect = NodePath("TextureRect")
+
+[node name="WhiteBorder" type="ColorRect" parent="." unique_id=1999425848]
+layout_mode = 0
+offset_right = 1.0
+offset_bottom = 4.0
+scale = Vector2(32, 1)
+
+[node name="RedBorder" type="ColorRect" parent="." unique_id=642126775]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 2.0
+offset_bottom = 3.0
+scale = Vector2(30, 1)
+color = Color(0.49263126, 0.05606263, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1955434909]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 2.0
+offset_bottom = 3.0
+scale = Vector2(21, 1)
+texture = ExtResource("1_jtv14")
+stretch_mode = 1

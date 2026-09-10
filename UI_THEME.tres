@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3 uid="uid://cott5tnvv24rj"]
+
+[ext_resource type="FontFile" uid="uid://c4agqxkh4gvlx" path="res://accetss/fonts/my 3x5 tiny mono pixel font.ttf" id="1_t7nr0"]
+
+[resource]
+default_font = ExtResource("1_t7nr0")
+default_font_size = 6
+Label/colors/font_color = Color(0.23838913, 0.6614991, 0.7863144, 1)

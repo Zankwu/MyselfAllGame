@@ -6,7 +6,8 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class BasicEnemy : Character
 {
-
+	[Export]
+	public Timer time;
 
 	public float EDGE_SCRREN_BUFFER = 8;
 
@@ -33,6 +34,15 @@ public partial class BasicEnemy : Character
 	{
 		attack_animations = ["PUNCH", "PUNCH_AIT"];
 		base._Ready();
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		if (Modulate.A < 1f)
+		{
+			Modulate = Modulate with { A = Modulate.A + 0.01f };
+		}
 	}
 
 
@@ -79,11 +89,11 @@ public partial class BasicEnemy : Character
 
 	public void Assign_Door(Door door)
 	{
-		if (door.currentState == Door.State.CLOSED)
+		if (door.currentState != Door.State.OPENED)
 		{
 			currentState = State.WAIT;
 			door.Open();
-			door.Opened+= OnActionComplete;
+			door.Opened += OnActionComplete;
 		}
 	}
 
@@ -203,10 +213,16 @@ public partial class BasicEnemy : Character
 	public override void OnDamageReceiver(int damage, Vector2 direction, int HitType)
 	{
 		base.OnDamageReceiver(damage, direction, HitType);
+		DamageManager.instance.EmitSignal(DamageManager.SignalName.ComboChange);
+		if (current_health <= 0 || HitType == 3) 
+		{
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.SpawnSpark,Position);
+		}
+
 		if (current_health <= 0)
 		{
 			enemySlot.FreeSlotEnemy();
-			EntityManager.instance.EmitSignal(EntityManager.SignalName.OnEnemyDeath,this);
+			EntityManager.instance.EmitSignal(EntityManager.SignalName.OnEnemyDeath, this);
 		}
 	}
 

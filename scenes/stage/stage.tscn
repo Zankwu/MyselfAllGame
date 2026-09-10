@@ -5,8 +5,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecxui"]
 size = Vector2(608, 32)
 
-[node name="Stage" type="Node2D" unique_id=185410150 node_paths=PackedStringArray("containers", "Doors")]
+[node name="Stage" type="Node2D" unique_id=185410150 node_paths=PackedStringArray("checkpoints", "containers", "Doors")]
 script = ExtResource("1_ecxui")
+checkpoints = NodePath("CheckPoints")
 containers = NodePath("Containers")
 Doors = NodePath("Doors")
 

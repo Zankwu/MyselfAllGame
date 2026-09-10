@@ -27,11 +27,10 @@ public partial class CheckPoint : Node
 
 	public void CreateEnemyData()
 	{
-		foreach (Node2D child in enemies.GetChildren())
+		foreach (Character child in enemies.GetChildren())
 		{
 			BasicEnemy temp1 = child as BasicEnemy;
 			enemyDatasTemp.Add(new EnemyData(temp1.tYPE, temp1.GlobalPosition, temp1.assigin_door_index));
-			GD.Print(temp1.assigin_door_index);
 			temp1.QueueFree();
 		}
 	}

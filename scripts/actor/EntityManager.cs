@@ -19,10 +19,12 @@ public partial class EntityManager : Node
     [Signal]
     public delegate void CheckPointStartEventHandler();
     [Signal]
-
     public delegate void CheckPointEndEventHandler();
     [Signal]
     public delegate void OrphanActorEventHandler(Node2D node2D);
+
+    [Signal]
+    public delegate void SpawnSparkEventHandler(Vector2 position);
     public static EntityManager instance;
 
     public override void _Ready()

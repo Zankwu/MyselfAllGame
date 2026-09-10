@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bactaar8xxv8p"]
+
+[ext_resource type="Texture2D" uid="uid://cv0cno4gim68b" path="res://accetss/art/particles/spark.png" id="1_474nb"]
+
+[sub_resource type="Animation" id="Animation_65twx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_onkui"]
+resource_name = "idle"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7ep7"]
+_data = {
+&"RESET": SubResource("Animation_65twx"),
+&"idle": SubResource("Animation_onkui")
+}
+
+[node name="Spark" type="Node2D" unique_id=2102697274]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1739268017]
+texture = ExtResource("1_474nb")
+centered = false
+offset = Vector2(-24, -32)
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1646573033]
+root_node = NodePath("../Sprite2D")
+libraries/ = SubResource("AnimationLibrary_k7ep7")
+autoplay = &"idle"

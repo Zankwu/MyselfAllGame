@@ -83,6 +83,10 @@ public partial class Player : Character
 
 		if (Input.IsActionJustPressed("attack") && CanPunch())
 		{
+			// foreach (EnemySlot temp in enemySlots)
+			// {
+			// 	GD.Print($"message: {temp.enemy}");
+			// }
 			if (hasKnfie)
 			{
 				currentState = State.THROW;

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cdy36nbtqe5q3" path="res://scripts/World.cs" id="1_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://d6gnxdpt320" path="res://scenes/stage/stage_01_streets.tscn" id="2_71j4m"]
+[ext_resource type="PackedScene" uid="uid://cak2dby8fj25n" path="res://scenes/UI/ui.tscn" id="2_qfnet"]
 [ext_resource type="PackedScene" uid="uid://c5w6iew34jul0" path="res://scenes/Character/player.tscn" id="2_rwgxs"]
 [ext_resource type="Script" uid="uid://jhmf0326et8a" path="res://scripts/actor/Actors.cs" id="3_i7141"]
 
@@ -13,10 +14,13 @@ script = ExtResource("1_4wyf3")
 camera = NodePath("camera")
 player = NodePath("actors/Player")
 
+[node name="UI" parent="." unique_id=2017767498 instance=ExtResource("2_qfnet")]
+
 [node name="Stage_01_streets" parent="." unique_id=185410150 instance=ExtResource("2_71j4m")]
 
 [node name="camera" type="Camera2D" parent="." unique_id=1697912121]
 position = Vector2(50, 32)
+position_smoothing_speed = 3.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="camera" unique_id=1114645185]
 position = Vector2(-50, -32)
@@ -45,12 +49,18 @@ collision_mask = 0
 position = Vector2(77, 32)
 shape = SubResource("RectangleShape2D_7ek4p")
 
-[node name="actors" type="Node2D" parent="." unique_id=429231371 node_paths=PackedStringArray("player")]
+[node name="actors" type="Node2D" parent="." unique_id=429231371]
 y_sort_enabled = true
 script = ExtResource("3_i7141")
-player = NodePath("Player")
 
 [node name="Player" parent="actors" unique_id=770339625 instance=ExtResource("2_rwgxs")]
 position = Vector2(33, 55)
+Time_Combo_Duration = 0
 KNOCK_BACK_FORCE = 10.0
 speed = 76
+maxArrmo = 0
+dorpCanDestoryed = false
+
+[editable path="UI"]
+[editable path="UI/UIControler/playerBar"]
+[editable path="UI/UIControler/enemyBar"]

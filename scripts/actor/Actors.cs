@@ -9,6 +9,9 @@ public partial class Actors : Node2D
 	[Export]
 	public Player player;
 	PackedScene shotPacked = GD.Load<PackedScene>("res://scenes/Actors/shot.tscn");
+
+	PackedScene sparkPacked = GD.Load<PackedScene>("res://scenes/Actors/spark.tscn");
+
 	public Dictionary<Collectible.TYPE, PackedScene> collectibleMaps = new Dictionary<Collectible.TYPE, PackedScene>
 	{
 		{Collectible.TYPE.KNIFE,GD.Load<PackedScene>("res://scenes/Collectibles/knife.tscn")},
@@ -25,22 +28,30 @@ public partial class Actors : Node2D
 	};
 	// Called when the node enters the scene tree for the first time.
 	
-	public Door[] doors = [];
+	public List<Door> doorList = [];
 	public override void _Ready()
 	{
 		EntityManager.instance.OnCollectibleSpawn += OnCollectibleSpawn;
 		EntityManager.instance.SpawnShot += OnSpawnShot;
 		EntityManager.instance.OnSpawnEnemy += OnSpawnEnemy;
 		EntityManager.instance.OrphanActor += OrphanActorReparents;
-
+		EntityManager.instance.SpawnSpark += OnSpawnSpark;
+		player = GetNode<Player>("Player");
 	}
 
-	private void OrphanActorReparents(Node2D orphan)
+    private void OnSpawnSpark(Vector2 position)
+    {
+        Node2D spark=sparkPacked.Instantiate<Node2D>();
+		spark.Position = position;
+		AddChild(spark);
+    }
+
+    private void OrphanActorReparents(Node2D orphan)
 	{
 		GD.Print("receive");
-		if (orphan is Door)
+		if (orphan is Door door)
 		{
-			doors.Append(orphan);
+			doorList.Add(door);
 		}
 		orphan.Reparent(this);
 	}
@@ -77,7 +88,8 @@ public partial class Actors : Node2D
 		tempChar.currentState = enemyData.currentState;
 		if (enemyData.Door_Index > -1)
 		{
-			tempChar.Assign_Door(doors[enemyData.Door_Index]);
+			tempChar.Assign_Door(doorList[enemyData.Door_Index]);
+			tempChar.Modulate = tempChar.Modulate with{A=0f};
 		}
 		AddChild(tempChar);
 
