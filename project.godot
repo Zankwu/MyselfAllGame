@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 PreState="uid://cmaldh8idddsg"
 EntityManager="*uid://cy02rgw2jld7c"
 DamageManager="*uid://dk06heptq6ngc"
+MusicManager="*uid://lsr5egexcx7j"
+SfxManager="*uid://bwki78mwqyp3p"
 
 [display]
 

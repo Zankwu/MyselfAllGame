@@ -11,9 +11,12 @@ public partial class Stage : Node2D
 	[Export]
 	public Node2D Doors;
 	// Called when the node enters the scene tree for the first time.
+	[Export]
+	public MusicManager.MUSIC_TYPE music_type;
 	public override void _Ready()
 	{
 		CallDeferred(nameof(EmitContainers));
+		MusicManager.instance.PlayMusic(music_type);
 	}
 	public void EmitContainers()
 	{

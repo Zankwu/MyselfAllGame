@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://lsr5egexcx7j"]
+
+[ext_resource type="Script" uid="uid://cx8gby0njmiv" path="res://music/MusicManager.cs" id="1_74tc1"]
+
+[node name="MusicManager" type="Node" unique_id=1328743203 node_paths=PackedStringArray("audioStreamPlayer2D")]
+script = ExtResource("1_74tc1")
+audioStreamPlayer2D = NodePath("AudioStreamPlayer2D")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1746869195]
+bus = &"MUSIC"

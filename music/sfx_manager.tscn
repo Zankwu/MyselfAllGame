@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://bwki78mwqyp3p"]
+
+[ext_resource type="Script" uid="uid://ds18rj1yknfkx" path="res://music/SfxManager.cs" id="1_c3cgx"]
+[ext_resource type="AudioStream" uid="uid://di0ffnbtb6y44" path="res://accetss/sfx/click.wav" id="2_click"]
+[ext_resource type="AudioStream" uid="uid://b3y6kwixk3bo0" path="res://accetss/sfx/eat-food.wav" id="3_eat_food"]
+[ext_resource type="AudioStream" uid="uid://bbfmx0sp66ode" path="res://accetss/sfx/gogogo.wav" id="4_gogogo"]
+[ext_resource type="AudioStream" uid="uid://ctfsk0327x8v2" path="res://accetss/sfx/grunt.wav" id="5_grunt"]
+[ext_resource type="AudioStream" uid="uid://2v2nyb6odfi3" path="res://accetss/sfx/gunshot.wav" id="6_gunshot"]
+[ext_resource type="AudioStream" uid="uid://dtwkq828codsh" path="res://accetss/sfx/hit-1.wav" id="7_hit_1"]
+[ext_resource type="AudioStream" uid="uid://b1551ahftg2m3" path="res://accetss/sfx/hit-2.wav" id="8_hit_2"]
+[ext_resource type="AudioStream" uid="uid://ycxhry11m5c7" path="res://accetss/sfx/knife-hit.wav" id="9_knife_hit"]
+[ext_resource type="AudioStream" uid="uid://3tlpuliqf5k2" path="res://accetss/sfx/miss.wav" id="10_miss"]
+
+[node name="SFXManager" type="Node" unique_id=190292628 node_paths=PackedStringArray("sfx_list")]
+script = ExtResource("1_c3cgx")
+sfx_list = [NodePath("click"), NodePath("eat_food"), NodePath("gogogo"), NodePath("grunt"), NodePath("gunshot"), NodePath("hit_1"), NodePath("hit_2"), NodePath("knife_hit"), NodePath("miss")]
+
+[node name="click" type="AudioStreamPlayer" parent="." unique_id=691507528]
+stream = ExtResource("2_click")
+bus = &"SFX"
+
+[node name="eat_food" type="AudioStreamPlayer" parent="." unique_id=1218908043]
+stream = ExtResource("3_eat_food")
+bus = &"SFX"
+
+[node name="gogogo" type="AudioStreamPlayer" parent="." unique_id=822083561]
+stream = ExtResource("4_gogogo")
+bus = &"SFX"
+
+[node name="grunt" type="AudioStreamPlayer" parent="." unique_id=622937820]
+stream = ExtResource("5_grunt")
+bus = &"SFX"
+
+[node name="gunshot" type="AudioStreamPlayer" parent="." unique_id=626428471]
+stream = ExtResource("6_gunshot")
+bus = &"SFX"
+
+[node name="hit_1" type="AudioStreamPlayer" parent="." unique_id=545435478]
+stream = ExtResource("7_hit_1")
+bus = &"SFX"
+
+[node name="hit_2" type="AudioStreamPlayer" parent="." unique_id=1595636543]
+stream = ExtResource("8_hit_2")
+bus = &"SFX"
+
+[node name="knife_hit" type="AudioStreamPlayer" parent="." unique_id=2046720761]
+stream = ExtResource("9_knife_hit")
+bus = &"SFX"
+
+[node name="miss" type="AudioStreamPlayer" parent="." unique_id=1456987312]
+stream = ExtResource("10_miss")
+bus = &"SFX"

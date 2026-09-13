@@ -508,7 +508,7 @@ public partial class Character : CharacterBody2D
 					Vector2.Zero, 0, dorpCanDestoryed);
 			}
 			SetHealthBar(current_health - damage, true);
-
+			SfxManager.instance.PlaySFX(SfxManager.SFX_TYPE.HIT2);
 			if (HitType == 2 || current_health <= 0)
 			{
 				currentState = State.FALL;
